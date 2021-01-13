@@ -1,0 +1,12 @@
+
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'springboot-angular-sample'
+
+include 'backend'
+include 'frontend'
+
