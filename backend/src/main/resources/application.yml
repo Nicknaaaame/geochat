@@ -1,0 +1,34 @@
+#logging:
+#  level:
+#    org.springframework.security: debug
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/geochat?serverTimezone=UTC&useSSL=false
+    username: postgres
+    password: root
+  jpa:
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+          temp.use_jdbc_metadata_defaults: false
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: 88d9251f51ff8035a085
+            client-secret: bf53d409789a92a4e7225b34fbe3af1a7b4764cc
+            redirectUri: http://localhost:4200/oauth2/callback/github
+            scope:
+              - read:user
+              - user:email
+          google:
+            clientId: 382110776474-m3lvhvfbmsvv2kln5i81nkqi8tb6ng8s.apps.googleusercontent.com
+            clientSecret: 494RQriQ9LxR-jBvQQZ0u3CQ
+            redirectUri: http://localhost:4200/oauth2/callback/google
+            scope:
+              - email
+              - profile
