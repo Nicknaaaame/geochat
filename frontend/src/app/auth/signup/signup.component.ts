@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {Observable} from "rxjs";
+import {AuthService} from "../../store/auth-store/service/auth.service";
 
 @Component({
   selector: 'app-signup',
@@ -20,10 +22,14 @@ import {Component, OnInit} from '@angular/core';
 })
 export class SignupComponent implements OnInit {
 
-  constructor() {
+  constructor(private authService: AuthService) {
+
   }
 
   ngOnInit(): void {
   }
 
+  onClickOpenLoginPage(providerId: string) {
+    this.authService.openLoginPage(providerId)
+  }
 }

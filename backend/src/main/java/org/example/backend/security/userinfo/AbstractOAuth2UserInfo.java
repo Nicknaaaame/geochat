@@ -15,7 +15,7 @@ public abstract class AbstractOAuth2UserInfo {
         resultAttrs.put("name", getUsername());
     }
 
-    public abstract ProviderType getProviderId();
+    public abstract String getProviderId();
 
     public abstract String getUsername();
 

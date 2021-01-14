@@ -8,8 +8,8 @@ public class GoogleOAuth2UserInfo extends AbstractOAuth2UserInfo {
     }
 
     @Override
-    public ProviderType getProviderId() {
-        return ProviderType.getByName((String) attrs.get("sub"));
+    public String getProviderId() {
+        return (String) attrs.get("sub");
     }
 
     @Override
