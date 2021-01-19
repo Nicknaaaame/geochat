@@ -1,7 +1,9 @@
 package org.example.backend.service;
 
 
-import org.example.backend.domain.User;
+import org.example.backend.model.entity.User;
+import org.example.backend.model.request.UpdateProfileRequest;
+import org.example.backend.model.response.ProfileResponse;
 import org.example.backend.security.userinfo.AbstractOAuth2UserInfo;
 
 import java.util.List;
@@ -12,6 +14,8 @@ public interface UserService {
 
     User saveUserFrom(AbstractOAuth2UserInfo userInfo);
 
+    User getUser();
+
     Optional<User> getUserById(Long id);
 
     List<User> getAllUsers();
@@ -19,4 +23,8 @@ public interface UserService {
     void deleteUserById(Long id);
 
     Optional<User> getUserByEmail(String email);
+
+    ProfileResponse fetchProfile();
+
+    ProfileResponse updateProfile(UpdateProfileRequest request);
 }

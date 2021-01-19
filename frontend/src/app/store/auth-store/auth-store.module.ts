@@ -6,6 +6,8 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {EffectsModule} from "@ngrx/effects";
 import {AuthEffects} from "./store/auth.effects";
 import {initAuth} from "./store/auth.actions";
+import {loadProfile} from "../profile-store/store/profile.actions";
+import {isAuth} from "./store/auth.selectors";
 
 
 @NgModule({
@@ -20,5 +22,9 @@ import {initAuth} from "./store/auth.actions";
 export class AuthStoreModule {
   constructor(private store: Store) {
     store.dispatch(initAuth())
+    store.select(isAuth).subscribe(value => {
+      if (value)
+        store.dispatch(loadProfile())
+    })
   }
 }

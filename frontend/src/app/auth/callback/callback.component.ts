@@ -16,8 +16,8 @@ export class CallbackComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(value => {
       this.route.queryParams.subscribe(p => {
+        console.log("login")
         this.store.dispatch(login({code: p.code, state: p.state, providerId: value.get('providerId') as string}))
-        this.router.navigate(['/'])
       })
     })
   }

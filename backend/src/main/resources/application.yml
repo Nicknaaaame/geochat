@@ -18,13 +18,6 @@ spring:
     oauth2:
       client:
         registration:
-          github:
-            client-id: 88d9251f51ff8035a085
-            client-secret: bf53d409789a92a4e7225b34fbe3af1a7b4764cc
-            redirectUri: http://localhost:4200/oauth2/callback/github
-            scope:
-              - read:user
-              - user:email
           google:
             clientId: 382110776474-m3lvhvfbmsvv2kln5i81nkqi8tb6ng8s.apps.googleusercontent.com
             clientSecret: 494RQriQ9LxR-jBvQQZ0u3CQ
@@ -32,3 +25,20 @@ spring:
             scope:
               - email
               - profile
+          vk:
+            clientId: 7729199
+            clientSecret: E7Aj6odkTGEmtWG6XDkE
+            redirectUri: http://localhost:4200/oauth2/callback/vk
+            provider: vk
+            clientName: vk
+            client-authentication-method: post
+            authorization-grant-type: authorization_code
+            scope:
+              - email
+              - photos
+        provider:
+          vk:
+            authorization-uri: https://oauth.vk.com/authorize
+            token-uri: https://oauth.vk.com/access_token
+            user-info-uri: https://api.vk.com/method/users.get
+#            user-name-attribute:

@@ -11,11 +11,11 @@ public abstract class AbstractOAuth2UserInfo {
     public AbstractOAuth2UserInfo(Map<String, Object> attrs) {
         this.attrs = attrs;
         resultAttrs = new HashMap<>();
-        resultAttrs.put("id", getProviderId());
+        resultAttrs.put("id", getProvidedUserId());
         resultAttrs.put("name", getUsername());
     }
 
-    public abstract String getProviderId();
+    public abstract String getProvidedUserId();
 
     public abstract String getUsername();
 

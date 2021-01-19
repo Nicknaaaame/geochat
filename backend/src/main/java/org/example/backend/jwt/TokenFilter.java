@@ -1,6 +1,6 @@
 package org.example.backend.jwt;
 
-import org.example.backend.domain.User;
+import org.example.backend.model.entity.User;
 import org.example.backend.security.UserPrincipal;
 import org.example.backend.service.UserService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

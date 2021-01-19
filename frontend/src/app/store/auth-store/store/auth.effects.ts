@@ -1,10 +1,14 @@
-import {Injectable} from "@angular/core";
-import {Actions, createEffect, ofType} from "@ngrx/effects";
-import {catchError, map, switchMap, tap} from "rxjs/operators";
-import {AuthService} from "../service/auth.service";
-import {initAuth, login, loginFailed, loginSuccess, logout, logoutSuccess} from "./auth.actions";
-import {of} from "rxjs";
-import {AuthData} from "./auth.reducer";
+import {Injectable} from "@angular/core"
+import {Actions, createEffect, ofType} from "@ngrx/effects"
+import {catchError, distinctUntilChanged, map, skip, switchMap, tap} from "rxjs/operators"
+import {AuthService} from "../service/auth.service"
+import {initAuth, login, loginFailed, loginSuccess, logout, logoutSuccess} from "./auth.actions"
+import {of} from "rxjs"
+import {AuthData} from "./auth.reducer"
+import {loadProfile} from "../../profile-store/store/profile.actions"
+import {Router} from "@angular/router"
+import {select, Store} from "@ngrx/store"
+import {isAuth} from "./auth.selectors"
 
 @Injectable()
 export class AuthEffects {
@@ -13,8 +17,11 @@ export class AuthEffects {
     switchMap(action =>
       this.authService.fetchToken(action.code, action.state, action.providerId)
         .pipe(
-          map(authData => loginSuccess({authData})),
-          catchError(err => of(loginFailed({serverError: err.message})))
+          map(authData => {
+            this.router.navigateByUrl('/')
+            return loginSuccess({authData})
+          }),
+          catchError(err => of(loginFailed({serverError: err.exception})))
         )
     )
   ))
@@ -29,12 +36,12 @@ export class AuthEffects {
   extractAuthData$ = createEffect(() => this.actions$.pipe(
     ofType(initAuth),
     map(() => {
-      const authDataString = localStorage.getItem('authData');
+      const authDataString = localStorage.getItem('authData')
       if (!authDataString) {
-        return logoutSuccess();
+        return loginFailed({serverError: ''})
       }
-      const authData: AuthData = JSON.parse(authDataString);
-      return loginSuccess({authData});
+      const authData: AuthData = JSON.parse(authDataString)
+      return loginSuccess({authData})
     })
   ))
 
@@ -46,9 +53,18 @@ export class AuthEffects {
     })
   ))
 
+  logoutSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(logoutSuccess),
+    tap(x => {
+      this.router.navigateByUrl("/signup")
+    })
+  ), {dispatch: false})
+
   constructor(
     private actions$: Actions,
-    private authService: AuthService
+    private authService: AuthService,
+    private store$: Store,
+    private router: Router
   ) {
   }
 }

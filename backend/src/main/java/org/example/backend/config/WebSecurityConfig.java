@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.jwt.TokenFilter;
 import org.example.backend.jwt.TokenStore;
 import org.example.backend.security.CustomOAuth2UserService;
+import org.example.backend.security.CustomTokenResponseConverter;
 import org.example.backend.security.InMemoryRequestRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,7 +17,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
+import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler;
+import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -24,10 +32,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -71,8 +76,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .userInfoEndpoint()
                         .userService(oAuth2UserService)
                         .and()
+                    .tokenEndpoint()
+                        .accessTokenResponseClient(authorizationCodeTokenResponseClient())
+                        .and()
                     .successHandler(this::successHandler)
-                        .failureHandler(this::failureHandler)
+//                    .failureHandler(this::failureHandler)
                         .and()
                 .exceptionHandling()
                     .authenticationEntryPoint(this::authenticationEntryPoint)
@@ -83,6 +91,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         ;
         //@formatter:on
         http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+
+    private OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> authorizationCodeTokenResponseClient() {
+        OAuth2AccessTokenResponseHttpMessageConverter tokenResponseHttpMessageConverter
+                = new OAuth2AccessTokenResponseHttpMessageConverter();
+
+        tokenResponseHttpMessageConverter.setTokenResponseConverter(new CustomTokenResponseConverter());
+
+        DefaultAuthorizationCodeTokenResponseClient tokenResponseClient = new DefaultAuthorizationCodeTokenResponseClient();
+
+        RestTemplate restTemplate = new RestTemplate(Arrays.asList(new FormHttpMessageConverter(), tokenResponseHttpMessageConverter));
+
+        restTemplate.setErrorHandler(new OAuth2ErrorResponseErrorHandler());
+
+        tokenResponseClient.setRestOperations(restTemplate);
+        return tokenResponseClient;
     }
 
     private void logout(HttpServletRequest request, HttpServletResponse response,

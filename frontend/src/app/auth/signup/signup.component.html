@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-content>
-    <button mat-raised-button (click)="onClickOpenLoginPage('google')">Sign in with Google</button>
+    <button [disabled]="isAuthLoading$ | async" mat-raised-button (click)="onClickOpenLoginPage('google')">Sign in with Google</button>
     <br>
     <button mat-raised-button (click)="onClickOpenLoginPage('vk')">Sign in with Vk</button>
   </mat-card-content>

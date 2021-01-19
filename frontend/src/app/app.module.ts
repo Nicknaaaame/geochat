@@ -15,11 +15,17 @@ import {StoreModule} from "@ngrx/store";
 import {AuthStoreModule} from "./store/auth-store/auth-store.module";
 import {environment} from "../environments/environment";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import {AuthInterceptor} from "./interceptors/auth.interceptor";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {ProfileStoreModule} from "./store/profile-store/profile-store.module";
+import {ProfileModule} from "./profile/profile.module";
+import {ChatModule} from "./chat/chat.module";
+import {AuthGuard} from "./auth/auth.guard";
+import {GuestGuard} from "./auth/guest.guard";
 
 @NgModule({
   declarations: [
     AppComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -29,12 +35,23 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     HeaderModule,
     AuthModule,
     AuthStoreModule,
+    ProfileStoreModule,
+    ProfileModule,
+    ChatModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     StoreRouterConnectingModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS, // Injection Token
+      useClass: AuthInterceptor, // класс интерсептора SPI
+      multi: true // мы внедряем массив
+    },
+    AuthGuard,
+    GuestGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

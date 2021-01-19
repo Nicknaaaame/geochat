@@ -7,6 +7,8 @@ public class OAuth2UserInfoFactory {
         switch (providerType) {
             case GOOGLE:
                 return new GoogleOAuth2UserInfo(attrs);
+            case VK:
+                return new VkOAuth2UserInfo(attrs);
         }
         throw new IllegalArgumentException(providerType.toString());
     }

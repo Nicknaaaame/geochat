@@ -1,13 +1,18 @@
 package org.example.backend.service;
 
-import org.example.backend.domain.User;
+import org.example.backend.converter.ProfileResponseConverter;
+import org.example.backend.exception.UserNotFoundException;
+import org.example.backend.model.entity.User;
+import org.example.backend.model.request.UpdateProfileRequest;
+import org.example.backend.model.response.ProfileResponse;
 import org.example.backend.repository.UserRepository;
+import org.example.backend.security.UserPrincipal;
 import org.example.backend.security.userinfo.AbstractOAuth2UserInfo;
-import org.example.backend.security.userinfo.ProviderType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +20,8 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ProfileResponseConverter profileResponseConverter;
 
     @Override
     public User saveUser(User user) {
@@ -23,7 +30,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUserFrom(AbstractOAuth2UserInfo userInfo) {
-        return saveUser(new User(null, userInfo.getProviderId(), userInfo.getUsername(), userInfo.getEmail(), userInfo.getPictureUrl()));
+        return saveUser(new User(null, userInfo.getProvidedUserId(), userInfo.getUsername(), userInfo.getEmail(), userInfo.getPictureUrl()));
+    }
+
+    @Override
+    public User getUser() {
+        Long id = fetchUserPrincipal().getId();
+        if (id == null)
+            throw new AccessDeniedException("Invalid access");
+        return getUserById(id).orElseThrow(() -> new UserNotFoundException("User with id: " + id + " not found"));
     }
 
     @Override
@@ -45,4 +60,23 @@ public class UserServiceImpl implements UserService {
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findUserByEmail(email);
     }
+
+    @Override
+    public ProfileResponse fetchProfile() {
+        return profileResponseConverter.apply(getUser());
+    }
+
+    @Override
+    public ProfileResponse updateProfile(UpdateProfileRequest request) {
+        User user = getUser();
+        user.setEmail(request.getEmail());
+        user.setName(request.getName());
+        user.setPicture(request.getPicture());
+        return profileResponseConverter.apply(saveUser(user));
+    }
+
+    private UserPrincipal fetchUserPrincipal() {
+        return (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
 }
