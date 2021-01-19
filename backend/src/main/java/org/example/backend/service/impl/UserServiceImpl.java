@@ -1,4 +1,4 @@
-package org.example.backend.service;
+package org.example.backend.service.impl;
 
 import org.example.backend.converter.ProfileResponseConverter;
 import org.example.backend.exception.UserNotFoundException;
@@ -8,6 +8,7 @@ import org.example.backend.model.response.ProfileResponse;
 import org.example.backend.repository.UserRepository;
 import org.example.backend.security.UserPrincipal;
 import org.example.backend.security.userinfo.AbstractOAuth2UserInfo;
+import org.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
