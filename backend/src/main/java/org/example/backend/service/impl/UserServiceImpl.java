@@ -2,12 +2,15 @@ package org.example.backend.service.impl;
 
 import org.example.backend.converter.ProfileResponseConverter;
 import org.example.backend.exception.UserNotFoundException;
+import org.example.backend.model.dto.LocationDto;
+import org.example.backend.model.entity.Location;
 import org.example.backend.model.entity.User;
 import org.example.backend.model.request.UpdateProfileRequest;
 import org.example.backend.model.response.ProfileResponse;
 import org.example.backend.repository.UserRepository;
 import org.example.backend.security.UserPrincipal;
 import org.example.backend.security.userinfo.AbstractOAuth2UserInfo;
+import org.example.backend.service.LocationService;
 import org.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -23,6 +26,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private ProfileResponseConverter profileResponseConverter;
+    @Autowired
+    private LocationService locationService;
 
     @Override
     public User saveUser(User user) {
@@ -73,6 +78,10 @@ public class UserServiceImpl implements UserService {
         user.setEmail(request.getEmail());
         user.setName(request.getName());
         user.setPicture(request.getPicture());
+        user.setShowLocation(request.getShowLocation());
+        LocationDto location = request.getLocation();
+        user.setLocation(locationService.saveLocation(
+                new Location(location.getId(), location.getLatitude(), location.getLongitude())));
         return profileResponseConverter.apply(saveUser(user));
     }
 

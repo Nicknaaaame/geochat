@@ -17,6 +17,6 @@ export class ProfileService {
   }
 
   updateProfile(profile: Profile) {
-    return  this.http.put<Profile>(this.apiUrl + '/profile', profile)
+    return this.http.put<Profile>(this.apiUrl + '/profile', profile)
   }
 }

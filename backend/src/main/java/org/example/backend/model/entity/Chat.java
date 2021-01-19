@@ -1,16 +1,21 @@
 package org.example.backend.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Data
 @NoArgsConstructor
-public class Chat extends AbstractEntity {
+@AllArgsConstructor
+public class Chat {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     @ManyToOne
     private User admin;
 

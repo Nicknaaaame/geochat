@@ -24,7 +24,9 @@ export class ProfileComponent implements OnInit {
   editProfile: Profile = {} as Profile
 
   constructor(private store: Store) {
-    this.profile$.subscribe(value => this.editProfile = JSON.parse(JSON.stringify(value)))
+    this.profile$.subscribe(value => {
+      this.editProfile = JSON.parse(JSON.stringify(value))
+    })
   }
 
   ngOnInit(): void {

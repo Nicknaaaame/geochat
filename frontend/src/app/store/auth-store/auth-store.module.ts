@@ -22,6 +22,7 @@ import {isAuth} from "./store/auth.selectors";
 export class AuthStoreModule {
   constructor(private store: Store) {
     store.dispatch(initAuth())
+    //TODO may be bug in future
     store.select(isAuth).subscribe(value => {
       if (value)
         store.dispatch(loadProfile())

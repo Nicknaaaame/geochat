@@ -12,6 +12,8 @@
         </label>
       </mat-form-field>
       <br>
+      <mat-checkbox [(ngModel)]="editProfile.showLocation" name="showLocation">Show my location</mat-checkbox>
+      <br>
       <button mat-raised-button color="primary" (click)="onClickSubmit()">Submit</button>
     </form>
   </mat-card-content>

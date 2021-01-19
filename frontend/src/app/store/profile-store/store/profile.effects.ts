@@ -12,6 +12,9 @@ import {
 import {catchError, map, switchMap, take, tap} from "rxjs/operators";
 import {of} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {Store} from "@ngrx/store";
+import {GeolocationService} from "@ng-web-apis/geolocation";
+import {Location} from "../../location-store/service/location.model";
 
 @Injectable()
 export class ProfileEffects {
@@ -20,7 +23,9 @@ export class ProfileEffects {
     switchMap(() =>
       this.profileService.getProfile()
         .pipe(
-          map(profile => loadProfileSuccess({profile})),
+          map(profile => {
+            return loadProfileSuccess({profile})
+          }),
           catchError(err => of(loadProfileFailed({serverError: err.exception})))
         )
     )
@@ -31,11 +36,28 @@ export class ProfileEffects {
     switchMap((action) =>
       this.profileService.updateProfile(action.profile)
         .pipe(
-          map(profile => updateProfileSuccess()),
+          map(profile => {
+            return updateProfileSuccess({profile})
+          }),
           catchError(err => of(updateProfileFailed({serverError: err.exception})))
         )
     )
   ))
+
+  loadProfileSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(loadProfileSuccess),
+    tap((action) => {
+        this.geolocation.pipe(take(1)).subscribe(value => {
+          let location: Location = {
+            id: action.profile.location ? action.profile.location.id : null,
+            latitude: value.coords.latitude,
+            longitude: value.coords.longitude
+          }
+          this.store.dispatch(updateProfile({profile: ({...action.profile, location})}))
+        })
+      }
+    )
+  ), {dispatch: false})
 
   updateProfileSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(updateProfileSuccess),
@@ -56,7 +78,9 @@ export class ProfileEffects {
   constructor(
     private actions$: Actions,
     private profileService: ProfileService,
-    private matSnackBar: MatSnackBar
+    private matSnackBar: MatSnackBar,
+    private store: Store,
+    private geolocation: GeolocationService
   ) {
   }
 }

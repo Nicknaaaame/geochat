@@ -15,6 +15,8 @@ public class ProfileResponseConverter implements Function<User, ProfileResponse>
                 .name(user.getName())
                 .email(user.getEmail())
                 .picture(user.getPicture())
+                .showLocation(user.getShowLocation())
+                .location(user.getLocation())
                 .build();
     }
 }

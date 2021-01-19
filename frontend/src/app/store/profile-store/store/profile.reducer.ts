@@ -5,7 +5,7 @@ import {
   loadProfileFailed,
   loadProfileSuccess,
   updateProfile,
-  updateProfileFailed
+  updateProfileFailed, updateProfileSuccess
 } from "./profile.actions";
 
 export const PROFILE_FEATURE_NAME = 'profile';
@@ -45,6 +45,13 @@ export const profileReducer = createReducer(
     serverError
   })),
   on(updateProfile, (state, {profile})=>({
+    ...state,
+    loading: false,
+    loaded: true,
+    serverError: '',
+    profile
+  })),
+  on(updateProfileSuccess, (state, {profile}) => ({
     ...state,
     loading: false,
     loaded: true,

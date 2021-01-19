@@ -1,21 +1,22 @@
 package org.example.backend.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
+@Data
 @NoArgsConstructor
-public class Attachment extends AbstractEntity {
+@AllArgsConstructor
+public class Attachment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     private byte[] content;
 
     @ManyToOne
     private Message message;
-
-    public Attachment(Long id, byte[] content, Message message) {
-        super(id);
-        this.content = content;
-        this.message = message;
-    }
 }

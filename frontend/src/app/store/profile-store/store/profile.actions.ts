@@ -22,7 +22,7 @@ export const updateProfile = createAction(
 
 export const updateProfileSuccess = createAction(
   '[Profile] update profile success',
-  // props<{profile: Profile}>()
+  props<{profile: Profile}>()
 )
 
 export const updateProfileFailed = createAction(
