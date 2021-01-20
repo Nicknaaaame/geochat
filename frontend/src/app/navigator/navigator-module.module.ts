@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ChatComponent} from './chat.component';
+import {NavigatorComponent} from './navigator.component';
 import {RouterModule, Routes} from "@angular/router";
 import {AuthGuard} from "../auth/auth.guard";
 import {NavigatorUiComponent} from './navigator-ui/navigator-ui.component';
@@ -11,12 +11,12 @@ import { ChatListUiComponent } from './chat-list-ui/chat-list-ui.component';
 import { ChatRowUiComponent } from './chat-list-ui/chat-row-ui/chat-row-ui.component';
 
 const routes: Routes = [
-  {path: 'chats', component: ChatComponent, canActivate: [AuthGuard]}
+  {path: 'chats', component: NavigatorComponent, canActivate: [AuthGuard]}
 ]
 
 @NgModule({
   declarations: [
-    ChatComponent,
+    NavigatorComponent,
     NavigatorUiComponent,
     FindChatUiComponent,
     ChatListUiComponent,
