@@ -7,11 +7,11 @@ import {pipe, throwError} from "rxjs";
 import {Chat} from "../../store/chat-store/service/chat.model";
 
 @Component({
-  selector: 'app-find-chat-ui',
-  templateUrl: './find-chat-ui.component.html',
+  selector: 'app-find-chat',
+  templateUrl: './find-chat.component.html',
   styles: []
 })
-export class FindChatUiComponent implements OnInit {
+export class FindChatComponent implements OnInit {
   @ViewChild('createChatDialog')
   createChatDialog!: TemplateRef<any>
 

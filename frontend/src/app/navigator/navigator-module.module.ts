@@ -3,16 +3,15 @@ import {CommonModule} from '@angular/common';
 import {NavigatorComponent} from './navigator.component';
 import {RouterModule, Routes} from "@angular/router";
 import {AuthGuard} from "../auth/auth.guard";
-import {NavigatorUiComponent} from './navigator-ui/navigator-ui.component';
 import {MaterialModule} from "../material/material.module";
-import {FindChatUiComponent} from './find-chat-ui/find-chat-ui.component';
+import {FindChatComponent} from './find-chat/find-chat.component';
 import {FormsModule} from "@angular/forms";
-import { ChatListUiComponent } from './chat-list-ui/chat-list-ui.component';
-import { ChatRowUiComponent } from './chat-list-ui/chat-row-ui/chat-row-ui.component';
-import { MessagesUiComponent } from './messages-ui/messages-ui.component';
-import { FindUsersUiComponent } from './find-users-ui/find-users-ui.component';
-import { UserListUiComponent } from './find-users-ui/user-list/user-list-ui.component';
-import { UserRowUiComponent } from './find-users-ui/user-list/user-row-ui/user-row-ui.component';
+import { ChatListComponent } from './chat-list/chat-list.component';
+import { ChatRowComponent } from './chat-list/chat-row/chat-row.component';
+import { MessagesComponent } from './messages/messages.component';
+import { FindUsersComponent } from './find-users/find-users.component';
+import { UserListComponent } from './find-users/user-list/user-list.component';
+import { UserRowComponent } from './find-users/user-list/user-row/user-row.component';
 
 const routes: Routes = [
   {path: 'chats', component: NavigatorComponent, canActivate: [AuthGuard]}
@@ -21,14 +20,13 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     NavigatorComponent,
-    NavigatorUiComponent,
-    FindChatUiComponent,
-    ChatListUiComponent,
-    ChatRowUiComponent,
-    MessagesUiComponent,
-    FindUsersUiComponent,
-    UserListUiComponent,
-    UserRowUiComponent,
+    FindChatComponent,
+    ChatListComponent,
+    ChatRowComponent,
+    MessagesComponent,
+    FindUsersComponent,
+    UserListComponent,
+    UserRowComponent,
   ],
     imports: [
         CommonModule,

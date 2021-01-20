@@ -2,12 +2,12 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Chat} from "../../store/chat-store/service/chat.model";
 
 @Component({
-  selector: 'app-chat-list-ui',
-  templateUrl: './chat-list-ui.component.html',
+  selector: 'app-chat-list',
+  templateUrl: './chat-list.component.html',
   styles: [
   ]
 })
-export class ChatListUiComponent implements OnInit {
+export class ChatListComponent implements OnInit {
   @Input()
   chats!: Chat[]
 
