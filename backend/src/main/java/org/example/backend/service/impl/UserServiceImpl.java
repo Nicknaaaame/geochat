@@ -22,6 +22,9 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
+    private static final double SEARCH_RADIUS = 10d;
+    private static final double EARTH_RADIUS = 6317d;
+
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -50,6 +53,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    public List<User> getUsersAround() {
+        Location location = getUser().getLocation();
+        double delta = SEARCH_RADIUS / EARTH_RADIUS;
+        double lon1 = location.getLongitude() - delta, lon2 = location.getLongitude() + delta;
+        double lat1 = location.getLatitude() - delta, lat2 = location.getLatitude() + delta;
+        return userRepository.findByLocation_LatitudeBetweenAndLocation_LongitudeBetween(lat1, lat2, lon1, lon2);
     }
 
     @Override

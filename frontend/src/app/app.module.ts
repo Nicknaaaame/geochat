@@ -22,10 +22,12 @@ import {ProfileModule} from "./profile/profile.module";
 import {ChatModule} from "./navigator/navigator-module.module";
 import {AuthGuard} from "./auth/auth.guard";
 import {GuestGuard} from "./auth/guest.guard";
+import { UserPageComponent } from './user-page/user-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    UserPageComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,6 +9,10 @@ import {FindChatUiComponent} from './find-chat-ui/find-chat-ui.component';
 import {FormsModule} from "@angular/forms";
 import { ChatListUiComponent } from './chat-list-ui/chat-list-ui.component';
 import { ChatRowUiComponent } from './chat-list-ui/chat-row-ui/chat-row-ui.component';
+import { MessagesUiComponent } from './messages-ui/messages-ui.component';
+import { FindUsersUiComponent } from './find-users-ui/find-users-ui.component';
+import { UserListUiComponent } from './find-users-ui/user-list/user-list-ui.component';
+import { UserRowUiComponent } from './find-users-ui/user-list/user-row-ui/user-row-ui.component';
 
 const routes: Routes = [
   {path: 'chats', component: NavigatorComponent, canActivate: [AuthGuard]}
@@ -21,6 +25,10 @@ const routes: Routes = [
     FindChatUiComponent,
     ChatListUiComponent,
     ChatRowUiComponent,
+    MessagesUiComponent,
+    FindUsersUiComponent,
+    UserListUiComponent,
+    UserRowUiComponent,
   ],
     imports: [
         CommonModule,

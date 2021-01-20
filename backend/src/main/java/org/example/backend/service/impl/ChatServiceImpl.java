@@ -16,6 +16,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class ChatServiceImpl implements ChatService {
+    private static final double SEARCH_RADIUS = 5d;
+    private static final double EARTH_RADIUS = 6317d;
+
     @Autowired
     private ChatRepository chatRepository;
     @Autowired
@@ -40,7 +43,7 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public List<Chat> getChatsAround() {
         Location location = userService.getUser().getLocation();
-        double delta = 5.0d / 6317d;
+        double delta = SEARCH_RADIUS / EARTH_RADIUS;
         double lon1 = location.getLongitude() - delta, lon2 = location.getLongitude() + delta;
         double lat1 = location.getLatitude() - delta, lat2 = location.getLatitude() + delta;
         return chatRepository.findByLocation_LatitudeBetweenAndLocation_LongitudeBetween(lat1, lat2, lon1, lon2);
