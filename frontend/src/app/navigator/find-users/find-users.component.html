@@ -1,1 +1,3 @@
-<app-user-list [users]="usersAround$ | async"></app-user-list>
+<div *ngIf="usersAround$ | async as userAround">
+  <app-user-list [users]="userAround"></app-user-list>
+</div>
