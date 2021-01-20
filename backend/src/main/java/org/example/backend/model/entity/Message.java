@@ -3,9 +3,9 @@ package org.example.backend.model.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.backend.model.entity.enums.MessageType;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Data
@@ -18,12 +18,15 @@ public class Message {
 
     private String text;
 
+    @Enumerated(EnumType.STRING)
+    private MessageType messageType;
+
     @ManyToOne
     private Chat chat;
 
     @ManyToOne
     private User sender;
 
-    @OneToMany
-    private Set<Attachment> attachments;
+//    @OneToMany
+//    private Set<Attachment> attachments;
 }

@@ -2,7 +2,7 @@ package org.example.backend.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.example.backend.model.entity.Role;
+import org.example.backend.model.entity.enums.Role;
 import org.example.backend.model.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
