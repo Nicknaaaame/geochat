@@ -19,7 +19,7 @@ import {AuthInterceptor} from "./interceptors/auth.interceptor";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {ProfileStoreModule} from "./store/profile-store/profile-store.module";
 import {ProfileModule} from "./profile/profile.module";
-import {ChatModule} from "./chat/chat.module";
+import {ChatModule} from "./chat/chat-module.module";
 import {AuthGuard} from "./auth/auth.guard";
 import {GuestGuard} from "./auth/guest.guard";
 

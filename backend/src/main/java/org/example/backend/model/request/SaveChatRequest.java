@@ -6,5 +6,6 @@ import java.util.Set;
 
 @Data
 public class SaveChatRequest {
+    private String name;
     private Set<Long> users;
 }

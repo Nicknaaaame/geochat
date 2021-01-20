@@ -1,18 +1,26 @@
 <mat-grid-list cols="4">
-  <mat-grid-tile [colspan]="1" [rowspan]="1">
-    <button mat-raised-button (click)="onClickCreateChat()">Create chat</button>
-    <ng-template #createChatDialog>
-      <h2 matDialogTitle>Create chat</h2>
-      <form>
-        <input >
-      </form>
-      <mat-dialog-actions>
-        <button mat-raised-button [mat-dialog-close]="onClickSaveChat()" color="primary">Save</button>
-        <button mat-raised-button [mat-dialog-close]="" color="warn">Close</button>
-      </mat-dialog-actions>
-    </ng-template>
+  <mat-grid-tile [colspan]="1" [rowspan]="2">
+    <div layout="column" layout-align="center start">
+      <button mat-raised-button (click)="onClickCreateChat()">Create chat</button>
+      <ng-template #createChatDialog>
+        <h2 matDialogTitle>Create chat</h2>
+        <form>
+          <mat-form-field>
+            <mat-label>Name</mat-label>
+            <label>
+              <input matInput name="name" [(ngModel)]="saveChatRequest.name">
+            </label>
+          </mat-form-field>
+        </form>
+        <mat-dialog-actions>
+          <button mat-raised-button [mat-dialog-close]="" color="primary">Save</button>
+          <button mat-raised-button [mat-dialog-close]="" color="warn">Close</button>
+        </mat-dialog-actions>
+      </ng-template>
+      <app-chat-list-ui [chats]="chatsAround$ | async"></app-chat-list-ui>
+    </div>
   </mat-grid-tile>
-  <mat-grid-tile [colspan]="3" [rowspan]="1">
-    kek
+  <mat-grid-tile [colspan]="3" [rowspan]="2">
+    <h2>Choose chat</h2>
   </mat-grid-tile>
 </mat-grid-list>

@@ -1,5 +1,10 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
+import {ChatService} from "../../store/chat-store/service/chat.service";
+import {SaveChatRequest} from "../../store/chat-store/service/save-chat.request";
+import {catchError, tap} from "rxjs/operators";
+import {pipe, throwError} from "rxjs";
+import {Chat} from "../../store/chat-store/service/chat.model";
 
 @Component({
   selector: 'app-find-chat-ui',
@@ -8,19 +13,28 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class FindChatUiComponent implements OnInit {
   @ViewChild('createChatDialog')
-  createChatDialog!: TemplateRef<any>;
+  createChatDialog!: TemplateRef<any>
 
-  constructor(private dialog: MatDialog) {
+  saveChatRequest: SaveChatRequest = {} as SaveChatRequest
+
+  chatsAround$ = this.chatService.getChatsAround()
+
+  constructor(private dialog: MatDialog, private chatService: ChatService) {
+    this.saveChatRequest.name = ''
+    this.saveChatRequest.users = []
   }
 
   ngOnInit(): void {
   }
 
   onClickCreateChat() {
-    this.dialog.open(this.createChatDialog)
+    this.dialog.open(this.createChatDialog).afterClosed().subscribe(value => {
+      this.saveChat()
+    })
   }
 
-  onClickSaveChat() {
-
+  saveChat() {
+    console.log("saving")
+    this.chatService.saveChat(this.saveChatRequest).subscribe(value => console.log(value))
   }
 }
