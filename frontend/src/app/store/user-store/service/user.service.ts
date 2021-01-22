@@ -15,4 +15,8 @@ export class UserService {
   getUsersAround() {
     return this.http.get<User[]>(this.apiUrl)
   }
+
+  getUser(userId: number | string) {
+    return this.http.get<User>(this.apiUrl + '/' + userId)
+  }
 }

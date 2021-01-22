@@ -1,0 +1,3 @@
+<div *ngIf="userChats$ | async as userChats">
+  <app-chat-list [chats]="userChats"></app-chat-list>
+</div>

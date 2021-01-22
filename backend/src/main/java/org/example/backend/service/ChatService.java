@@ -9,4 +9,6 @@ public interface ChatService {
     Chat saveChat(SaveChatRequest request);
 
     List<Chat> getChatsAround();
+
+    List<Chat> getUserChats();
 }

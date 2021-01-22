@@ -1,0 +1,13 @@
+<mat-card>
+  <mat-card-title>Profile</mat-card-title>
+  <mat-card-header>
+    <img mat-card-avatar src="{{user.picture}}" alt="picture">
+  </mat-card-header>
+  <mat-card-content>
+    <span>{{user.name}}</span>
+    <br>
+  </mat-card-content>
+  <div *ngIf="user.showLocation">
+    <app-map-ui [latitude]="user.location.latitude" [longitude]="user.location.longitude"></app-map-ui>
+  </div>
+</mat-card>

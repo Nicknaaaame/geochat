@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {GeolocationService} from "@ng-web-apis/geolocation";
 
 declare var ol: any;
 
@@ -16,12 +15,16 @@ export class MapUiComponent implements OnInit {
 
   @Input()
   geolocation!: Position
+  @Input()
   latitude!: number
+  @Input()
   longitude!: number
 
   ngOnInit() {
-    this.latitude = this.geolocation.coords.latitude
-    this.longitude = this.geolocation.coords.longitude
+    if(!this.latitude)
+      this.latitude = this.geolocation.coords.latitude
+    if(!this.longitude)
+      this.longitude = this.geolocation.coords.longitude
     this.map = new ol.Map({
       target: 'map',
       layers: [

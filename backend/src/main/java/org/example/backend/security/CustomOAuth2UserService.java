@@ -47,19 +47,20 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return new UserPrincipal(user, oAuth2UserInfo.getResultAttrs());
     }
 
+    //TODO should be refactored
     private OAuth2User loadUserFromVk(OAuth2UserRequest userRequest) {
         Map<String, Object> attributes = new HashMap<>();
-        attributes.put("username", getUsername(userRequest));
-        attributes.put("picture", getPictureUrl(userRequest));
+        attributes.put("username", retrieveUsername(userRequest));
+        attributes.put("picture", retrievePictureUrl(userRequest));
         attributes.put("email", userRequest.getAdditionalParameters().get("email"));
         attributes.put("user_id", userRequest.getAdditionalParameters().get("user_id"));
         return new DefaultOAuth2User(Collections.singletonList(new SimpleGrantedAuthority("ROLE_NONE")), attributes, "username");
     }
 
-    private String getPictureUrl(OAuth2UserRequest userRequest) {
-        OAuth2UserRequest getPhotosRequest = createOAuth2UserRequestFrom(userRequest, "https://api.vk.com/method/photos.get?v=5.74&album_id=profile");
+    private String retrievePictureUrl(OAuth2UserRequest userRequest) {
+        OAuth2UserRequest getPhotosRequest = createOAuth2UserRequest(userRequest, "https://api.vk.com/method/photos.get?v=5.74&album_id=profile");
         //https://vk.com/images/camera_200.png?ava=1
-        Map<String, Object> bodyFrom = extractBodyFrom(getPhotosRequest);
+        Map<String, Object> bodyFrom = extractBody(getPhotosRequest);
         LinkedHashMap<String, Object> body = (LinkedHashMap<String, Object>) bodyFrom.get("response");
         if ((Integer) body.get("count") == 0)
             return "https://vk.com/images/camera_200.png?ava=1";
@@ -67,9 +68,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return (String) photos.get(0).get("url");
     }
 
-    public String getUsername(OAuth2UserRequest userRequest) {
-        OAuth2UserRequest getUsernameRequest = createOAuth2UserRequestFrom(userRequest, "https://api.vk.com/method/users.get?v=5.74");
-        Map<String, Object> bodyFrom = extractBodyFrom(getUsernameRequest);
+    public String retrieveUsername(OAuth2UserRequest userRequest) {
+        OAuth2UserRequest getUsernameRequest = createOAuth2UserRequest(userRequest, "https://api.vk.com/method/users.get?v=5.74");
+        Map<String, Object> bodyFrom = extractBody(getUsernameRequest);
         ArrayList<LinkedHashMap<String, Object>> response = (ArrayList<LinkedHashMap<String, Object>>) bodyFrom.get("response");
         Map<String, Object> body = (Map<String, Object>) response.get(0);
         String firstName = (String) body.get("first_name");
@@ -77,7 +78,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return firstName + " " + lastName;
     }
 
-    private Map<String, Object> extractBodyFrom(OAuth2UserRequest userRequest) {
+    private Map<String, Object> extractBody(OAuth2UserRequest userRequest) {
         Converter<OAuth2UserRequest, RequestEntity<?>> requestEntityConverter = new OAuth2UserRequestEntityConverter();
         RestTemplate restTemplate = new RestTemplate();
         RequestEntity<?> convert = requestEntityConverter.convert(userRequest);
@@ -86,7 +87,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return exchange.getBody();
     }
 
-    private OAuth2UserRequest createOAuth2UserRequestFrom(OAuth2UserRequest userRequest, String userInfoUri) {
+    private OAuth2UserRequest createOAuth2UserRequest(OAuth2UserRequest userRequest, String userInfoUri) {
         ClientRegistration registration = userRequest.getClientRegistration();
         ClientRegistration clientRegistration = ClientRegistration
                 .withRegistrationId(registration.getRegistrationId())

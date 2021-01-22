@@ -17,11 +17,14 @@ export class ChatService {
   getChatsAround() {
     // let params = new HttpParams().set("latitude", String(location.latitude)).set("longitude", String(location.longitude))
     // let params = new HttpParams().set("locationId", String(location.id))
-    return this.http.get<Chat[]>(this.apiUrl)
+    return this.http.get<Chat[]>(this.apiUrl + '/around')
   }
 
   saveChat(request: SaveChatRequest) {
-    console.log(request)
     return this.http.post<Chat>(this.apiUrl, request)
+  }
+
+  getUserChats() {
+    return this.http.get<Chat[]>(this.apiUrl + '/user')
   }
 }

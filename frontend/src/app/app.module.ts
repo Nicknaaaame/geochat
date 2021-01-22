@@ -22,12 +22,11 @@ import {ProfileModule} from "./profile/profile.module";
 import {ChatModule} from "./navigator/navigator-module.module";
 import {AuthGuard} from "./auth/auth.guard";
 import {GuestGuard} from "./auth/guest.guard";
-import { UserPageComponent } from './user-page/user-page.component';
+import {UserPageModule} from "./user-page/user-page.module";
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +39,7 @@ import { UserPageComponent } from './user-page/user-page.component';
     ProfileStoreModule,
     ProfileModule,
     ChatModule,
+    UserPageModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),

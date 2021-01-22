@@ -1,16 +1,6 @@
-<mat-card>
-  <mat-card-header>
-    <h2>
-      Chats around
-    </h2>
-  </mat-card-header>
-  <mat-card-content>
-    <mat-nav-list>
-      <mat-list-item *ngFor="let chat of chats">
-        <mat-divider></mat-divider>
-        <app-chat-row [chat]="chat"></app-chat-row>
-      </mat-list-item>
-
-    </mat-nav-list>
-  </mat-card-content>
-</mat-card>
+<mat-nav-list>
+  <mat-list-item *ngFor="let chat of chats" (click)="onClickListItem(chat)">
+    <mat-divider></mat-divider>
+    <app-chat-row [chat]="chat"></app-chat-row>
+  </mat-list-item>
+</mat-nav-list>

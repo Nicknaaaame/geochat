@@ -15,6 +15,8 @@ export class FindChatComponent implements OnInit {
   @ViewChild('createChatDialog')
   createChatDialog!: TemplateRef<any>
 
+  chosenChat!: Chat
+
   saveChatRequest: SaveChatRequest = {} as SaveChatRequest
 
   chatsAround$ = this.chatService.getChatsAround()
@@ -29,12 +31,17 @@ export class FindChatComponent implements OnInit {
 
   onClickCreateChat() {
     this.dialog.open(this.createChatDialog).afterClosed().subscribe(value => {
-      this.saveChat()
+      if (value == 'save')
+        this.saveChat()
     })
   }
 
   saveChat() {
     console.log("saving")
     this.chatService.saveChat(this.saveChatRequest).subscribe(value => console.log(value))
+  }
+
+  onChatPicked(chat: Chat) {
+    this.chosenChat = chat
   }
 }

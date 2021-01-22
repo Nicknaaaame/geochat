@@ -19,9 +19,14 @@ public class Chat {
     private String name;
 
     @ManyToOne
+    @Column
     private User admin;
 
     @ManyToMany
+    @JoinTable(
+            name = "chat_users",
+            joinColumns = @JoinColumn(name = "chat_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users;
 
     @OneToOne

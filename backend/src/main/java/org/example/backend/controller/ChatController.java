@@ -16,13 +16,18 @@ public class ChatController {
     @Autowired
     private ChatService chatService;
 
-    @GetMapping
-    public ResponseEntity<List<Chat>> getChatsAround(){
+    @GetMapping("/around")
+    public ResponseEntity<List<Chat>> getChatsAround() {
         return new ResponseEntity<>(chatService.getChatsAround(), HttpStatus.OK);
     }
 
+    @GetMapping("/user")
+    public ResponseEntity<List<Chat>> getUserChats() {
+        return new ResponseEntity<>(chatService.getUserChats(), HttpStatus.OK);
+    }
+
     @PostMapping
-    public ResponseEntity<Chat> saveChat(@RequestBody SaveChatRequest request){
+    public ResponseEntity<Chat> saveChat(@RequestBody SaveChatRequest request) {
         return new ResponseEntity<>(chatService.saveChat(request), HttpStatus.OK);
     }
 }

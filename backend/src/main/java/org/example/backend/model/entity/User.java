@@ -1,8 +1,7 @@
 package org.example.backend.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -25,6 +24,12 @@ public class User {
 
     @OneToOne
     private Location location;
+
+    @JsonIgnore
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @ManyToMany(mappedBy = "users")
+    private Set<Chat> chats;
 
     public User(Long id, String providerId, String name, String email, String picture) {
         this.id = id;

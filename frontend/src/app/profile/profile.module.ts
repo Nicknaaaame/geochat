@@ -12,12 +12,16 @@ import { MapUiComponent } from './map/map-ui/map-ui.component';
 
 
 @NgModule({
-  declarations: [ProfileComponent, MapComponent, MapUiComponent],
-  imports: [
-    CommonModule,
-    MaterialModule,
-    FormsModule,
-    RouterModule.forChild(ProfileRoutes),
-  ]
+    declarations: [ProfileComponent, MapComponent, MapUiComponent],
+  exports: [
+    MapComponent,
+    MapUiComponent
+  ],
+    imports: [
+        CommonModule,
+        MaterialModule,
+        FormsModule,
+        RouterModule.forChild(ProfileRoutes),
+    ]
 })
 export class ProfileModule { }
