@@ -1,9 +1,9 @@
 <mat-grid-list cols="4">
   <mat-grid-tile [colspan]="1" [rowspan]="2">
     <div layout="column" layout-align="center start">
-      <button mat-raised-button (click)="onClickCreateChat()">Create chat</button>
+      <button mat-raised-button (click)="onClickCreateChat()">Create localChat</button>
       <ng-template #createChatDialog>
-        <h2 matDialogTitle>Create chat</h2>
+        <h2 matDialogTitle>Create localChat</h2>
         <form>
           <mat-form-field>
             <mat-label>Name</mat-label>
@@ -26,7 +26,7 @@
     </div>
   </mat-grid-tile>
   <mat-grid-tile [colspan]="3" [rowspan]="2">
-    <h2 *ngIf="!chosenChat">Choose chat</h2>
+    <h2 *ngIf="!chosenChat">Choose local chat</h2>
     <app-chosen-chat *ngIf="chosenChat" [chat]="chosenChat"></app-chosen-chat>
   </mat-grid-tile>
 </mat-grid-list>

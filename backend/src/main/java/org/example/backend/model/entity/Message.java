@@ -21,8 +21,11 @@ public class Message {
     @Enumerated(EnumType.STRING)
     private MessageType messageType;
 
-    @ManyToOne
-    private Chat chat;
+    @ManyToOne(optional = true)
+    private LocalChat localChat;
+
+    @ManyToOne(optional = true)
+    private PrivateChat privateChat;
 
     @ManyToOne
     private User sender;

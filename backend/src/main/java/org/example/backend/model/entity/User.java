@@ -29,7 +29,7 @@ public class User {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @ManyToMany(mappedBy = "users")
-    private Set<Chat> chats;
+    private Set<LocalChat> localChats;
 
     public User(Long id, String providerId, String name, String email, String picture) {
         this.id = id;

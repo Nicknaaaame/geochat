@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Set;
 
 @Data
-public class SaveChatRequest {
+public class SaveLocalChatRequest {
     private String name;
     private Set<Long> users;
 }

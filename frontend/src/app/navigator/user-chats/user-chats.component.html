@@ -1,3 +1,10 @@
-<div *ngIf="userChats$ | async as userChats">
-  <app-chat-list [chats]="userChats"></app-chat-list>
-</div>
+<mat-grid-list cols="4">
+  <mat-grid-tile [colspan]="1" [rowspan]="2">
+    <div *ngIf="userChats$ | async as userChats">
+      <app-chat-list [chats]="userChats"></app-chat-list>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="3" [rowspan]="2">
+
+  </mat-grid-tile>
+</mat-grid-list>

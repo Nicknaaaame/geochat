@@ -3,7 +3,7 @@ import {environment} from "../../../../environments/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Chat} from "./chat.model";
 import {Location} from "../../location-store/service/location.model";
-import {SaveChatRequest} from "./save-chat.request";
+import {SaveLocalChatRequest} from "./save-local-chat.request";
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +20,23 @@ export class ChatService {
     return this.http.get<Chat[]>(this.apiUrl + '/around')
   }
 
-  saveChat(request: SaveChatRequest) {
-    return this.http.post<Chat>(this.apiUrl, request)
+  saveLocalChat(request: SaveLocalChatRequest) {
+    return this.http.post<Chat>(this.apiUrl + '/local', request)
   }
 
   getUserChats() {
     return this.http.get<Chat[]>(this.apiUrl + '/user')
   }
+
+  joinLocalChat(chat: Chat) {
+    let request: JoinLocalChatRequest = {
+      id: chat.id
+    }
+    console.log(request)
+    return this.http.post<Chat>(this.apiUrl + '/local/join', request)
+  }
+}
+
+interface JoinLocalChatRequest {
+  id: number | string
 }

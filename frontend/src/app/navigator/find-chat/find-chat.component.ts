@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {ChatService} from "../../store/chat-store/service/chat.service";
-import {SaveChatRequest} from "../../store/chat-store/service/save-chat.request";
+import {SaveLocalChatRequest} from "../../store/chat-store/service/save-local-chat.request";
 import {catchError, tap} from "rxjs/operators";
 import {pipe, throwError} from "rxjs";
 import {Chat} from "../../store/chat-store/service/chat.model";
@@ -17,7 +17,7 @@ export class FindChatComponent implements OnInit {
 
   chosenChat!: Chat
 
-  saveChatRequest: SaveChatRequest = {} as SaveChatRequest
+  saveChatRequest: SaveLocalChatRequest = {} as SaveLocalChatRequest
 
   chatsAround$ = this.chatService.getChatsAround()
 
@@ -37,8 +37,7 @@ export class FindChatComponent implements OnInit {
   }
 
   saveChat() {
-    console.log("saving")
-    this.chatService.saveChat(this.saveChatRequest).subscribe(value => console.log(value))
+    this.chatService.saveLocalChat(this.saveChatRequest).subscribe(value => console.log(value))
   }
 
   onChatPicked(chat: Chat) {

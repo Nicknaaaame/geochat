@@ -11,7 +11,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Chat {
+public class LocalChat {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -19,13 +19,12 @@ public class Chat {
     private String name;
 
     @ManyToOne
-    @Column
     private User admin;
 
     @ManyToMany
     @JoinTable(
-            name = "chat_users",
-            joinColumns = @JoinColumn(name = "chat_id"),
+            name = "local_chat_users",
+            joinColumns = @JoinColumn(name = "local_chat_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users;
 

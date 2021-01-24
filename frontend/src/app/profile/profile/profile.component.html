@@ -17,5 +17,6 @@
       <button mat-raised-button color="primary" (click)="onClickSubmit()">Submit</button>
     </form>
   </mat-card-content>
+  <div *ngFor="let chat of arr">{{chat}}</div>
   <app-map></app-map>
 </mat-card>
