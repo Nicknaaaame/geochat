@@ -1,6 +1,6 @@
 import {User} from "../../user-store/service/user.model";
 
-export interface Chat {
+export interface LocalChat {
   id: number | string,
   name: string,
   admin: User,

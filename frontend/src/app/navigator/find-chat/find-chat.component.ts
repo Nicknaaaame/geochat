@@ -4,7 +4,8 @@ import {ChatService} from "../../store/chat-store/service/chat.service";
 import {SaveLocalChatRequest} from "../../store/chat-store/service/save-local-chat.request";
 import {catchError, tap} from "rxjs/operators";
 import {pipe, throwError} from "rxjs";
-import {Chat} from "../../store/chat-store/service/chat.model";
+import {LocalChat} from "../../store/chat-store/service/local-chat.model";
+import {PrivateChat} from "../../store/chat-store/service/private-chat.model";
 
 @Component({
   selector: 'app-find-chat',
@@ -15,7 +16,7 @@ export class FindChatComponent implements OnInit {
   @ViewChild('createChatDialog')
   createChatDialog!: TemplateRef<any>
 
-  chosenChat!: Chat
+  chosenChat!: LocalChat
 
   saveChatRequest: SaveLocalChatRequest = {} as SaveLocalChatRequest
 
@@ -37,10 +38,10 @@ export class FindChatComponent implements OnInit {
   }
 
   saveChat() {
-    this.chatService.saveLocalChat(this.saveChatRequest).subscribe(value => console.log(value))
+    this.chatService.createLocalChat(this.saveChatRequest).subscribe(value => console.log(value))
   }
 
-  onChatPicked(chat: Chat) {
-    this.chosenChat = chat
+  onChatPicked(chat: LocalChat | PrivateChat) {
+    this.chosenChat = chat as LocalChat
   }
 }

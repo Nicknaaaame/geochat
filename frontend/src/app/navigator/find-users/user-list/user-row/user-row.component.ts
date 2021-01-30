@@ -2,6 +2,8 @@ import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {User} from "../../../../store/user-store/service/user.model";
 import {MatDialog} from "@angular/material/dialog";
 import {Message} from "../../../../store/message-store/service/message.model";
+import {MessageService} from "../../../../store/message-store/service/message.service";
+import {ChatService} from "../../../../store/chat-store/service/chat.service";
 
 @Component({
   selector: 'app-user-row',
@@ -16,7 +18,7 @@ export class UserRowComponent implements OnInit {
   writeMessageDialog!: TemplateRef<any>
   message = {} as Message
 
-  constructor(private matDialog: MatDialog) { }
+  constructor(private matDialog: MatDialog, private chatService: ChatService) { }
 
   ngOnInit(): void {
   }
@@ -29,6 +31,6 @@ export class UserRowComponent implements OnInit {
   }
 
   sendMessage(){
-    console.log("sending")
+    this.chatService.createPrivateChat({userId: this.user.id, message: this.message.text}).subscribe()
   }
 }

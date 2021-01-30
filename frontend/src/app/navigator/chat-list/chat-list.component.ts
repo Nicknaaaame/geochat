@@ -1,5 +1,6 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
-import {Chat} from "../../store/chat-store/service/chat.model";
+import {LocalChat} from "../../store/chat-store/service/local-chat.model";
+import {PrivateChat} from "../../store/chat-store/service/private-chat.model";
 
 @Component({
   selector: 'app-chat-list',
@@ -9,16 +10,16 @@ import {Chat} from "../../store/chat-store/service/chat.model";
 })
 export class ChatListComponent implements OnInit {
   @Input()
-  chats!: Chat[]
+  chats!: Array<LocalChat | PrivateChat>
   @Output()
-  onChatPicked = new EventEmitter<Chat>()
+  onChatPicked = new EventEmitter<LocalChat | PrivateChat>()
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  onClickListItem(chat: Chat){
+  onClickListItem(chat: LocalChat | PrivateChat){
     this.onChatPicked.emit(chat)
   }
 }

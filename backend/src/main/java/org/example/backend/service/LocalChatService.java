@@ -5,7 +5,6 @@ import org.example.backend.model.request.JoinLocalChatRequest;
 import org.example.backend.model.request.SaveLocalChatRequest;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface LocalChatService {
     LocalChat saveLocalChat(SaveLocalChatRequest request);
@@ -14,7 +13,7 @@ public interface LocalChatService {
 
     LocalChat joinLocalChat(JoinLocalChatRequest request);
 
-    Optional<LocalChat> getLocalChat(Long id);
+    LocalChat getLocalChat(Long id);
 
     List<LocalChat> getLocalChatsAround();
 

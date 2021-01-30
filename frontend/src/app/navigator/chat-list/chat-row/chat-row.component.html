@@ -1,4 +1,10 @@
 <a mat-line>
-  <img mat-card-avatar src="{{chat.admin.picture}}">
-  <span>{{chat.name}}</span>
+  <div *ngIf="localChat">
+    <img mat-card-avatar src="{{localChat.admin.picture}}">
+    <span>{{localChat.name}}</span>
+  </div>
+  <div *ngIf="privateChat">
+    <img mat-card-avatar src="{{privateChat.user.picture}}">
+    <span>{{privateChat.user.name}}</span>
+  </div>
 </a>

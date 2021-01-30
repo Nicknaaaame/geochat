@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Chat} from "../../../store/chat-store/service/chat.model";
+import {LocalChat} from "../../../store/chat-store/service/local-chat.model";
 import {ChatService} from "../../../store/chat-store/service/chat.service";
 import {tap} from "rxjs/operators";
 
@@ -11,7 +11,7 @@ import {tap} from "rxjs/operators";
 export class ChosenChatComponent implements OnInit {
 
   @Input()
-  chat!: Chat
+  chat!: LocalChat
 
   constructor(private chatService: ChatService) {
   }
