@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header.component';
 import {MaterialModule} from "../material/material.module";
 import {RouterModule} from "@angular/router";
+import {NbLayoutModule} from "@nebular/theme";
 
 
 
@@ -11,10 +12,11 @@ import {RouterModule} from "@angular/router";
   exports: [
     HeaderComponent
   ],
-  imports: [
-    CommonModule,
-    MaterialModule,
-    RouterModule
-  ]
+    imports: [
+        CommonModule,
+        MaterialModule,
+        RouterModule,
+        NbLayoutModule
+    ]
 })
 export class HeaderModule { }

@@ -23,6 +23,9 @@ import {ChatModule} from "./navigator/navigator-module.module";
 import {AuthGuard} from "./auth/auth.guard";
 import {GuestGuard} from "./auth/guest.guard";
 import {UserPageModule} from "./user-page/user-page.module";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NbThemeModule, NbLayoutModule } from '@nebular/theme';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 @NgModule({
   declarations: [
@@ -43,7 +46,11 @@ import {UserPageModule} from "./user-page/user-page.module";
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    StoreRouterConnectingModule.forRoot()
+    StoreRouterConnectingModule.forRoot(),
+    NgbModule,
+    NbThemeModule.forRoot({ name: 'default' }),
+    NbLayoutModule,
+    NbEvaIconsModule
   ],
   providers: [
     {

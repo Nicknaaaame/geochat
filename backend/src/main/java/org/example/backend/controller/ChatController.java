@@ -36,7 +36,6 @@ public class ChatController {
         return new ResponseEntity<>(chatService.getUserChats(), HttpStatus.OK);
     }
 
-
     @PostMapping("/local")
     public ResponseEntity<LocalChat> saveLocalChat(@RequestBody SaveLocalChatRequest request) {
         return new ResponseEntity<>(localChatService.saveLocalChat(request), HttpStatus.OK);

@@ -20,6 +20,5 @@ export class HeaderComponent implements OnInit {
 
   onClickLogout() {
     this.store.dispatch(logout())
-
   }
 }
