@@ -6,6 +6,7 @@ import {catchError, tap} from "rxjs/operators";
 import {pipe, throwError} from "rxjs";
 import {LocalChat} from "../../store/chat-store/service/local-chat.model";
 import {PrivateChat} from "../../store/chat-store/service/private-chat.model";
+import {Store} from "@ngrx/store";
 
 @Component({
   selector: 'app-find-chat',

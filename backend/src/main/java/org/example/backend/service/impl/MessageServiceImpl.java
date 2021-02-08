@@ -14,6 +14,8 @@ import org.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MessageServiceImpl implements MessageService {
     @Autowired
@@ -40,5 +42,15 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public Message saveMessage(Message message) {
         return repository.save(message);
+    }
+
+    @Override
+    public List<Message> getPrivateMessages(Long chatId) {
+        return repository.findByPrivateChatIdEquals(chatId);
+    }
+
+    @Override
+    public List<Message> getLocalMessages(Long chatId) {
+        return repository.findByLocalChatIdEquals(chatId);
     }
 }

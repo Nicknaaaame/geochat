@@ -4,16 +4,20 @@ import org.example.backend.exception.LocalChatNotFoundException;
 import org.example.backend.exception.UserNotFoundException;
 import org.example.backend.model.entity.LocalChat;
 import org.example.backend.model.entity.Location;
+import org.example.backend.model.entity.Message;
 import org.example.backend.model.entity.User;
+import org.example.backend.model.entity.enums.MessageType;
 import org.example.backend.model.request.JoinLocalChatRequest;
 import org.example.backend.model.request.SaveLocalChatRequest;
 import org.example.backend.repository.LocalChatRepository;
 import org.example.backend.service.LocalChatService;
 import org.example.backend.service.LocationService;
+import org.example.backend.service.MessageService;
 import org.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,6 +33,8 @@ public class LocalChatServiceImpl implements LocalChatService {
     private UserService userService;
     @Autowired
     private LocationService locationService;
+    @Autowired
+    private MessageService messageService;
 
     @Override
     public LocalChat saveLocalChat(SaveLocalChatRequest request) {
@@ -53,10 +59,19 @@ public class LocalChatServiceImpl implements LocalChatService {
     }
 
     @Override
+    @Transactional
     public LocalChat joinLocalChat(JoinLocalChatRequest request) {
         Long id = request.getId();
         LocalChat localChat = getLocalChat(id);
         localChat.getUsers().add(userService.getUser());
+        messageService.saveMessage(new Message(
+                null,
+                "",
+                MessageType.JOINED,
+                localChat,
+                null,
+                userService.getUser()
+        ));
         return saveLocalChat(localChat);
     }
 

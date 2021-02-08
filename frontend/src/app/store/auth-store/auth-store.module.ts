@@ -8,6 +8,7 @@ import {AuthEffects} from "./store/auth.effects";
 import {initAuth} from "./store/auth.actions";
 import {loadProfile} from "../profile-store/store/profile.actions";
 import {isAuth} from "./store/auth.selectors";
+import {loadChats} from "../chat-store/store/chats.actions";
 
 
 @NgModule({
@@ -24,8 +25,10 @@ export class AuthStoreModule {
     store.dispatch(initAuth())
     //TODO may be bug in future
     store.select(isAuth).subscribe(value => {
-      if (value)
+      if (value) {
         store.dispatch(loadProfile())
+        store.dispatch(loadChats())
+      }
     })
   }
 }

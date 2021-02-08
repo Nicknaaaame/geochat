@@ -23,6 +23,7 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCo
 import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler;
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.session.SessionManagementFilter;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -63,7 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
                 .authorizeRequests()
-                    .antMatchers( "/oauth2/**", "/login**")
+                    .antMatchers( "/oauth2/**", "/login**", "/ws/**")
                         .permitAll()
                     .anyRequest()
                         .authenticated()
@@ -91,6 +92,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         ;
         //@formatter:on
         http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(myCorsFilter(), SessionManagementFilter.class);
+    }
+
+    @Bean
+    MyCorsFilter myCorsFilter(){
+        return new MyCorsFilter();
     }
 
     private OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> authorizationCodeTokenResponseClient() {

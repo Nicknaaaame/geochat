@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Message} from "./message.model";
 import {environment} from "../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
+import {SocketClientService} from "../../websocket/socket-client.service";
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +10,26 @@ import {HttpClient} from "@angular/common/http";
 export class MessageService {
   apiUrl = environment.baseUrl + '/api/message'
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private socketClient: SocketClientService) {
   }
 
-  sendMessage(message: Message) {
+  getPrivateMessages(chatId: number | string) {
+    return this.http.get<Message[]>(this.apiUrl + '/private/' + chatId)
+  }
+
+  getLocalMessages(chatId: number | string) {
+    return this.http.get<Message[]>(this.apiUrl + '/local/' + chatId)
+  }
+
+  saveMessage(message: Message) {
     return this.http.post<Message>(this.apiUrl, message)
+  }
+
+  onPrivateMessage(chatId: number | string) {
+    return this.socketClient.onMessage<Message>(`/topic/message/private/${chatId}`)
+  }
+
+  onLocalMessage(chatId: number | string) {
+    return this.socketClient.onMessage<Message>(`/topic/message/local/${chatId}`)
   }
 }

@@ -39,6 +39,10 @@ export class ChatService {
     }
     return this.http.post<LocalChat>(this.apiUrl + '/local/join', request)
   }
+
+  public static isLocalChat(chat: LocalChat | PrivateChat): boolean {
+    return 'location' in chat
+  }
 }
 
 interface JoinLocalChatRequest {

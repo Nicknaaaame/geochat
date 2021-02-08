@@ -11,12 +11,14 @@ import org.example.backend.service.PrivateChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/chat")
+@CrossOrigin
 public class ChatController {
     @Autowired
     private ChatService chatService;
@@ -24,7 +26,8 @@ public class ChatController {
     private LocalChatService localChatService;
     @Autowired
     private PrivateChatService privateChatService;
-
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
 
     @GetMapping("/around")
     public ResponseEntity<List<LocalChat>> getChatsAround() {
@@ -48,6 +51,8 @@ public class ChatController {
 
     @PostMapping("/private")
     public ResponseEntity<PrivateChat> savePrivateChat(@RequestBody SavePrivateChatRequest request) {
-        return new ResponseEntity<>(privateChatService.savePrivateChat(request), HttpStatus.OK);
+        PrivateChat privateChat = privateChatService.savePrivateChat(request);
+        simpMessagingTemplate.convertAndSend("/topic/private/" + request.getUserId(), privateChat);
+        return new ResponseEntity<>(privateChat, HttpStatus.OK);
     }
 }
