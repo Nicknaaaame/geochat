@@ -14,7 +14,7 @@ import { UserListComponent } from './find-users/user-list/user-list.component';
 import { UserRowComponent } from './find-users/user-list/user-row/user-row.component';
 import { ChosenChatComponent } from './find-chat/chosen-chat/chosen-chat.component';
 import { UserChatsComponent } from './user-chats/user-chats.component';
-import {NbLayoutModule} from "@nebular/theme";
+import {NbLayoutModule, NbTabsetModule} from "@nebular/theme";
 
 const routes: Routes = [
   {path: 'chats', component: NavigatorComponent, canActivate: [AuthGuard]}
@@ -33,13 +33,14 @@ const routes: Routes = [
     ChosenChatComponent,
     UserChatsComponent,
   ],
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        MaterialModule,
-        FormsModule,
-        NbLayoutModule
-    ]
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    MaterialModule,
+    FormsModule,
+    NbLayoutModule,
+    NbTabsetModule
+  ]
 })
 export class ChatModule {
 }

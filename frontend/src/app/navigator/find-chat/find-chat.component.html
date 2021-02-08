@@ -1,32 +1,30 @@
-<mat-grid-list cols="4">
-  <mat-grid-tile [colspan]="1" [rowspan]="2">
-    <div layout="column" layout-align="center start">
-      <button mat-raised-button (click)="onClickCreateChat()">Create localChat</button>
-      <ng-template #createChatDialog>
-        <h2 matDialogTitle>Create localChat</h2>
-        <form>
-          <mat-form-field>
-            <mat-label>Name</mat-label>
-            <label>
-              <input matInput name="name" [(ngModel)]="saveChatRequest.name">
-            </label>
-          </mat-form-field>
-        </form>
-        <mat-dialog-actions>
-          <button mat-raised-button [mat-dialog-close]="'save'" color="primary">Save</button>
-          <button mat-raised-button [mat-dialog-close]="'close'" color="warn">
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-dialog-actions>
-      </ng-template>
+<div class="row">
+  <div class="col-3">
+    <button mat-raised-button (click)="onClickCreateChat()">Create localChat</button>
+    <ng-template #createChatDialog>
+      <h2 matDialogTitle>Create localChat</h2>
+      <form>
+        <mat-form-field>
+          <mat-label>Name</mat-label>
+          <label>
+            <input matInput name="name" [(ngModel)]="saveChatRequest.name">
+          </label>
+        </mat-form-field>
+      </form>
+      <mat-dialog-actions>
+        <button mat-raised-button [mat-dialog-close]="'save'" color="primary">Save</button>
+        <button mat-raised-button [mat-dialog-close]="'close'" color="warn">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-dialog-actions>
+    </ng-template>
 
-      <div *ngIf="chatsAround$ | async as chatsAround">
-        <app-chat-list (onChatPicked)="onChatPicked($event)" [chats]="chatsAround"></app-chat-list>
-      </div>
+    <div *ngIf="chatsAround$ | async as chatsAround">
+      <app-chat-list (onChatPicked)="onChatPicked($event)" [chats]="chatsAround"></app-chat-list>
     </div>
-  </mat-grid-tile>
-  <mat-grid-tile [colspan]="3" [rowspan]="2">
+  </div>
+  <div class="col-9">
     <h2 *ngIf="!chosenChat">Choose local chat</h2>
     <app-chosen-chat *ngIf="chosenChat" [chat]="chosenChat"></app-chosen-chat>
-  </mat-grid-tile>
-</mat-grid-list>
+  </div>
+</div>
