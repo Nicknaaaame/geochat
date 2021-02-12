@@ -21,8 +21,12 @@ export class MessageService {
     return this.http.get<Message[]>(this.apiUrl + '/local/' + chatId)
   }
 
-  saveMessage(message: Message) {
-    return this.http.post<Message>(this.apiUrl, message)
+  saveLocalMessage(message: { chatId: number | string, text: string }) {
+    return this.http.post<Message>(this.apiUrl + '/local', message)
+  }
+
+  savePrivateMessage(message: { chatId: number | string, text: string }) {
+    return this.http.post<Message>(this.apiUrl + '/private', message)
   }
 
   onPrivateMessage(chatId: number | string) {

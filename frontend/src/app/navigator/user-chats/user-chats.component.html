@@ -1,7 +1,14 @@
 <div class="row">
   <div class="col-3">
-    <app-chat-list *ngIf="userChats$ | async as userChats" [chats]="userChats"></app-chat-list>
+    <app-chat-list (onChatPicked)="onChatPicked($event)" *ngIf="userChats$ | async as userChats"
+                   [chats]="userChats"></app-chat-list>
   </div>
   <div class="col-9">
+    <div *ngIf="chosenChat">
+      <app-user-chat-chosen *ngIf="messages$ | async as messages" [messages]="messages" [chat]="chosenChat" ></app-user-chat-chosen>
+    </div>
+    <div *ngIf="!chosenChat">
+      <h1>Select a chat</h1>
+    </div>
   </div>
 </div>

@@ -8,5 +8,6 @@ export interface Message {
   messageType: string,
   privateChat: PrivateChat,
   localChat: LocalChat,
-  sender: User
+  sender: User,
+  creationDate: Date
 }

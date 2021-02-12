@@ -1,16 +1,15 @@
 package org.example.backend.model.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.backend.model.entity.enums.MessageType;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,6 +29,17 @@ public class Message {
     @ManyToOne
     private User sender;
 
-//    @OneToMany
+    private LocalDateTime creationDate = LocalDateTime.now();
+
+    public Message(Long id, String text, MessageType messageType, LocalChat localChat, PrivateChat privateChat, User sender) {
+        this.id = id;
+        this.text = text;
+        this.messageType = messageType;
+        this.localChat = localChat;
+        this.privateChat = privateChat;
+        this.sender = sender;
+    }
+
+    //    @OneToMany
 //    private Set<Attachment> attachments;
 }

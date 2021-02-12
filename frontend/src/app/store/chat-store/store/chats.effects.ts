@@ -5,6 +5,7 @@ import {Store} from "@ngrx/store";
 import {ChatService} from "../service/chat.service";
 import {loadChats, loadChatsSuccess} from "./chats.actions";
 import {map, switchMap, tap} from "rxjs/operators";
+import {addLocalMessage, addMessageSuccess, addPrivateMessage} from "../../message-store/store/messages.actions";
 
 @Injectable()
 export class ChatsEffects {
@@ -16,29 +17,17 @@ export class ChatsEffects {
           map(chats => {
             chats.forEach(value => {
               if (ChatService.isLocalChat(value))
-                this.messageService.onLocalMessage(value.id)
+                this.messageService.onLocalMessage(value.id).subscribe(message =>
+                  this.store.dispatch(addMessageSuccess({message})))
               else
-                this.messageService.onPrivateMessage(value.id)
+                this.messageService.onPrivateMessage(value.id).subscribe(message =>
+                  this.store.dispatch(addMessageSuccess({message})))
             })
-            return  loadChatsSuccess({chats})
+            return loadChatsSuccess({chats})
           })
         )
     )
   ))
-
-  /*loadChatSuccess$ = createEffect(() => this.actions$.pipe(
-    ofType(loadChatsSuccess),
-    tap((action) => {
-        action.chats.forEach(value => {
-          console.log(value.id)
-          if (ChatService.isLocalChat(value))
-            this.messageService.onLocalMessage(value.id)
-          else
-            this.messageService.onPrivateMessage(value.id)
-        })
-      }
-    )
-  ))*/
 
   constructor(
     private actions$: Actions,

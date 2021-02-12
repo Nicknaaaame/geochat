@@ -4,11 +4,11 @@ import {ChatService} from "../../../store/chat-store/service/chat.service";
 import {tap} from "rxjs/operators";
 
 @Component({
-  selector: 'app-chosen-chat',
-  templateUrl: './chosen-chat.component.html',
+  selector: 'app-find-chat-chosen',
+  templateUrl: './find-chat-chosen.component.html',
   styles: []
 })
-export class ChosenChatComponent implements OnInit {
+export class FindChatChosenComponent implements OnInit {
 
   @Input()
   chat!: LocalChat

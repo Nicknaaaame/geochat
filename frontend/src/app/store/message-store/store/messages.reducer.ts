@@ -1,6 +1,6 @@
 import {Message} from "../service/message.model";
 import {createReducer, on} from "@ngrx/store";
-import {addMessage, loadPrivateMessages, loadMessagesSuccess} from "./messages.actions";
+import {addMessageSuccess, loadPrivateMessages, loadMessagesSuccess} from "./messages.actions";
 import {createEntityAdapter, EntityAdapter, EntityState} from "@ngrx/entity";
 
 export const MESSAGES_FEATURE_NAME = 'messages'
@@ -11,7 +11,9 @@ export interface MessagesState extends EntityState<Message> {
   // serverError: string
 }
 
-export const adapter: EntityAdapter<Message> = createEntityAdapter<Message>()
+export const adapter: EntityAdapter<Message> = createEntityAdapter<Message>({
+
+})
 
 export const initialState: MessagesState = adapter.getInitialState({
   loaded: false,
@@ -22,7 +24,7 @@ export const messagesReducer = createReducer(
   on(loadMessagesSuccess, (state, action) => {
     return adapter.addMany(action.messages, {...state, loaded: true})
   }),
-  on(addMessage, (state, action) => {
+  on(addMessageSuccess, (state, action) => {
     return adapter.addOne(action.message, {...state, loaded: true})
   })
 )

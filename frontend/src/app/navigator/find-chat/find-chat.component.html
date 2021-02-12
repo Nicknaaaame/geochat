@@ -19,12 +19,12 @@
       </mat-dialog-actions>
     </ng-template>
 
-    <div *ngIf="chatsAround$ | async as chatsAround">
-      <app-chat-list (onChatPicked)="onChatPicked($event)" [chats]="chatsAround"></app-chat-list>
-    </div>
+    <app-chat-list (onChatPicked)="onChatPicked($event)" *ngIf="chatsAround$ | async as chatsAround"
+                   [chats]="chatsAround"></app-chat-list>
   </div>
+
   <div class="col-9">
     <h2 *ngIf="!chosenChat">Choose local chat</h2>
-    <app-chosen-chat *ngIf="chosenChat" [chat]="chosenChat"></app-chosen-chat>
+    <app-find-chat-chosen *ngIf="chosenChat" [chat]="chosenChat"></app-find-chat-chosen>
   </div>
 </div>

@@ -16,8 +16,6 @@ export class ChatService {
   }
 
   getChatsAround() {
-    // let params = new HttpParams().set("latitude", String(location.latitude)).set("longitude", String(location.longitude))
-    // let params = new HttpParams().set("locationId", String(location.id))
     return this.http.get<LocalChat[]>(this.apiUrl + '/around')
   }
 

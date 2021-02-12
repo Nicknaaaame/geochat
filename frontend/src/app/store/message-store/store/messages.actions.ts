@@ -16,7 +16,17 @@ export const loadMessagesSuccess = createAction(
   props<{ messages: Message[] }>()
 )
 
-export const addMessage = createAction(
+export const addMessageSuccess = createAction(
   '[Messages] add message',
   props<{ message: Message }>()
+)
+
+export const addPrivateMessage = createAction(
+  '[Messages] add private message',
+  props<{ message: { chatId: number | string, text: string } }>()
+)
+
+export const addLocalMessage = createAction(
+  '[Messages] add local message',
+  props<{ message: { chatId: number | string, text: string } }>()
 )
