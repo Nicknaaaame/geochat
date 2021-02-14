@@ -1,4 +1,4 @@
-<nb-chat size="giant" [title]="title">
+<nb-chat size="giant" [title]="getTitle()">
   <nb-chat-message *ngFor="let message of messages"
                    [type]="'text'"
                    [message]="message.text"

@@ -1,6 +1,5 @@
 package org.example.backend.controller;
 
-import org.example.backend.exception.UserNotFoundException;
 import org.example.backend.model.entity.User;
 import org.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         return new ResponseEntity<>(
-                userService.getUserById(id).orElseThrow(() -> new UserNotFoundException(id)),
+                userService.getUserById(id),
                 HttpStatus.OK);
     }
 }

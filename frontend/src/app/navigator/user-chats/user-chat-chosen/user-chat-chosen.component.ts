@@ -1,11 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Message} from "../../../store/message-store/service/message.model";
 import {Store} from "@ngrx/store";
-import {
-  addLocalMessage,
-  addMessageSuccess,
-  addPrivateMessage
-} from "../../../store/message-store/store/messages.actions";
 import {LocalChat} from "../../../store/chat-store/service/local-chat.model";
 import {PrivateChat} from "../../../store/chat-store/service/private-chat.model";
 import {ChatService} from "../../../store/chat-store/service/chat.service";
@@ -24,6 +19,7 @@ export class UserChatChosenComponent implements OnInit {
   chat!: LocalChat | PrivateChat
   userId!: number | string
   title!: string
+
   constructor(private store: Store, private messageService: MessageService) {
     store.select(getProfile).subscribe(value => this.userId = value.id)
   }
@@ -35,6 +31,10 @@ export class UserChatChosenComponent implements OnInit {
       let chat = this.chat as PrivateChat
       this.title = chat.user.name
     }
+  }
+
+  getTitle(): string {
+    return ChatService.getTitle(this.chat)
   }
 
   onSendMessage($event: { message: string; files: File[] }) {

@@ -1,7 +1,6 @@
 package org.example.backend.service.impl;
 
 import org.example.backend.exception.PrivateChatNotFoundException;
-import org.example.backend.exception.UserNotFoundException;
 import org.example.backend.model.dto.PrivateChatDto;
 import org.example.backend.model.entity.Message;
 import org.example.backend.model.entity.PrivateChat;
@@ -34,7 +33,7 @@ public class PrivateChatServiceImpl implements PrivateChatService {
     public PrivateChat savePrivateChat(SavePrivateChatRequest request) {
         User currentUser = userService.getUser();
         PrivateChat privateChat = repository.save(new PrivateChat(null, Set.of(currentUser, userService
-                .getUserById(request.getUserId()).orElseThrow(() -> new UserNotFoundException(request.getUserId())))));
+                .getUserById(request.getUserId()))));
         messageService.saveMessage(new Message(
                 null,
                 request.getMessage(),

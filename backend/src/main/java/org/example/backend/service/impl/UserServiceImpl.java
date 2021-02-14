@@ -47,12 +47,12 @@ public class UserServiceImpl implements UserService {
         Long id = fetchUserPrincipal().getId();
         if (id == null)
             throw new AccessDeniedException("Invalid access");
-        return getUserById(id).orElseThrow(() -> new UserNotFoundException("User with id: " + id + " not found"));
+        return getUserById(id);
     }
 
     @Override
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
     @Override

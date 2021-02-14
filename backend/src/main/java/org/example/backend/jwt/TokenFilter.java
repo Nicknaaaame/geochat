@@ -38,7 +38,7 @@ public class TokenFilter extends OncePerRequestFilter {
     }
 
     private Authentication createAuthentication(String token) {
-        User user = userService.getUserById(tokenStore.getId(token)).orElseThrow(RuntimeException::new);
+        User user = userService.getUserById(tokenStore.getId(token));
         UserPrincipal userPrincipal = new UserPrincipal(user, new HashMap<>());
         return new UsernamePasswordAuthenticationToken(
                 userPrincipal,

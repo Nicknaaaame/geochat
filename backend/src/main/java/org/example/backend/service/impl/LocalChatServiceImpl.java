@@ -1,7 +1,6 @@
 package org.example.backend.service.impl;
 
 import org.example.backend.exception.LocalChatNotFoundException;
-import org.example.backend.exception.UserNotFoundException;
 import org.example.backend.model.entity.LocalChat;
 import org.example.backend.model.entity.Location;
 import org.example.backend.model.entity.Message;
@@ -42,7 +41,7 @@ public class LocalChatServiceImpl implements LocalChatService {
         Location location = currentUser.getLocation();
         Location newLocation = new Location(null, location.getLatitude(), location.getLongitude());
         Set<User> users = request.getUsers().stream()
-                .map(id -> userService.getUserById(id).orElseThrow(() -> new UserNotFoundException(id)))
+                .map(id -> userService.getUserById(id))
                 .collect(Collectors.toSet());
         users.add(currentUser);
         return repository.save(new LocalChat(

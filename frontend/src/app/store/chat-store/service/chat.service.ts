@@ -41,6 +41,14 @@ export class ChatService {
   public static isLocalChat(chat: LocalChat | PrivateChat): boolean {
     return 'location' in chat
   }
+
+  public static getTitle(chat: LocalChat | PrivateChat): string {
+    if (ChatService.isLocalChat(chat)) {
+      return (chat as LocalChat).name
+    } else {
+      return (chat as PrivateChat).user.name
+    }
+  }
 }
 
 interface JoinLocalChatRequest {
