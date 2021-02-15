@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,7 @@ public class MessageController {
     }
 
     @PostMapping("/private")
-    public ResponseEntity<Message> savePrivateMessage(@RequestBody SavePrivateMessageRequest request) {
+    public ResponseEntity<Message> savePrivateMessage(@Valid @RequestBody SavePrivateMessageRequest request) {
         Message message = messageService.saveMessage(request);
         simpMessagingTemplate.convertAndSend("/topic/message/private/" + request.getChatId(), message);
         return new ResponseEntity<>(message, HttpStatus.OK);

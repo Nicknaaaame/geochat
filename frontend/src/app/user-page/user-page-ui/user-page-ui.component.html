@@ -7,7 +7,10 @@
     <span>{{user.name}}</span>
     <br>
   </mat-card-content>
+  <h1 *ngIf="isBlocked$ | async">You have been blocked</h1>
   <div *ngIf="user.showLocation">
     <app-map-ui [latitude]="user.location.latitude" [longitude]="user.location.longitude"></app-map-ui>
   </div>
+  <button mat-raised-button *ngIf="!isInBlackList" (click)="onClickBlockUser()">Block user</button>
+  <button mat-raised-button *ngIf="isInBlackList" (click)="onClickUnblockUser()">Unblock user</button>
 </mat-card>

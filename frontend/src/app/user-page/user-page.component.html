@@ -1,3 +1,1 @@
-<div *ngIf="user$ | async as user">
-  <app-user-page-ui [user]="user"></app-user-page-ui>
-</div>
+<app-user-page-ui *ngIf="user$ | async as user" [user]="user"></app-user-page-ui>

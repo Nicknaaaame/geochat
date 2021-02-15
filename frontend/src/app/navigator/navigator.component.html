@@ -1,4 +1,4 @@
-<nb-tabset>
+<!--<nb-tabset>
   <nb-tab tabTitle="Find chats">
     <app-find-chat></app-find-chat>
   </nb-tab>
@@ -8,4 +8,25 @@
   <nb-tab tabTitle="User chats">
     <app-user-chats></app-user-chats>
   </nb-tab>
-</nb-tabset>
+</nb-tabset>-->
+<!--<ul ngbNav class="nav-tabs">
+  <li ngbNavItem>
+    <a ngbNavLink [routerLink]="'/chats/find-chats'">Find chats</a>
+  </li>
+  <li ngbNavItem>
+    <a ngbNavLink [routerLink]="'/chats/find-users'">Find people</a>
+  </li>
+</ul>-->
+<!--<nav mat-tab-nav-bar>
+  <a mat-tab-link *ngFor="let tab of tabs"
+     routerLink="{{tab.route}}"
+     routerLinkActive="active">
+    {{ tab.label }}
+  </a>
+</nav>-->
+
+<mat-toolbar>
+  <a *ngFor="let tab of tabs" mat-button [routerLink]="tab.route"> {{tab.label}} </a>
+</mat-toolbar>
+
+<router-outlet></router-outlet>
