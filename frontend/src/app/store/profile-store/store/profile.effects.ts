@@ -37,7 +37,7 @@ export class ProfileEffects {
       this.profileService.updateProfile(action.profile)
         .pipe(
           map(profile => {
-            return updateProfileSuccess({profile})
+            return updateProfileSuccess({profile, popup: action.popup})
           }),
           catchError(err => of(updateProfileFailed({serverError: err.exception})))
         )
@@ -62,7 +62,8 @@ export class ProfileEffects {
   updateProfileSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(updateProfileSuccess),
     tap((action) => {
-        this.matSnackBar.open("Updated success", "CLOSE", {duration: 3000})
+      if(action.popup)
+        this.matSnackBar.open(action.popup, "CLOSE", {duration: 3000})
       }
     )
   ), {dispatch: false})

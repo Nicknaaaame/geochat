@@ -2,13 +2,18 @@ package org.example.backend.service.impl;
 
 import org.example.backend.exception.BlackListNotFoundException;
 import org.example.backend.model.entity.BlackList;
+import org.example.backend.model.entity.Message;
 import org.example.backend.model.entity.User;
+import org.example.backend.model.entity.enums.MessageType;
 import org.example.backend.repository.BlackListRepository;
 import org.example.backend.service.BlackListService;
+import org.example.backend.service.MessageService;
+import org.example.backend.service.PrivateChatService;
 import org.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,17 +23,43 @@ public class BlackListServiceImpl implements BlackListService {
     private BlackListRepository repository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private MessageService messageService;
+    @Autowired
+    private PrivateChatService privateChatService;
 
     @Override
+    @Transactional
     public void blockUser(Long userId) {
-        repository.save(new BlackList(null, userService.getUser(), userService.getUserById(userId)));
+        User currentUser = userService.getUser();
+        User userById = userService.getUserById(userId);
+        repository.save(new BlackList(null, currentUser, userById));
+        privateChatService.getPrivateChat(userById).ifPresent(privateChat ->
+                messageService.saveMessage(new Message(
+                        null,
+                        "Added in black list",
+                        MessageType.BLOCK,
+                        null,
+                        privateChat,
+                        currentUser
+                )));
     }
 
     @Override
     public void unblockUser(Long userId) {
-        BlackList entry = repository.findByBlockerAndBlocked(userService.getUser(), userService.getUserById(userId))
+        User currentUser = userService.getUser();
+        BlackList entry = repository.findByBlockerAndBlocked(currentUser, userService.getUserById(userId))
                 .orElseThrow(() -> new BlackListNotFoundException("User is not blocked"));
         repository.delete(entry);
+        privateChatService.getPrivateChat(userService.getUserById(userId)).ifPresent(privateChat ->
+                messageService.saveMessage(new Message(
+                        null,
+                        "Removed from black list",
+                        MessageType.UNBLOCK,
+                        null,
+                        privateChat,
+                        currentUser
+                )));
     }
 
     @Override

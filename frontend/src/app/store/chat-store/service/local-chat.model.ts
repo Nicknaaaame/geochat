@@ -5,5 +5,6 @@ export interface LocalChat {
   name: string,
   admin: User,
   users: User[],
-  location: Location
+  location: Location,
+  canWrite: boolean
 }

@@ -18,4 +18,17 @@
     </form>
   </mat-card-content>
   <app-map></app-map>
+  <h2>Blacklist</h2>
+  <div *ngIf="blacklist.length==0">Your blacklist is empty</div>
+  <div *ngFor="let user of blacklist">
+    <mat-card>
+      <mat-card-header>
+        <img mat-card-avatar src="{{user.picture}}" alt="picture">
+      </mat-card-header>
+      <mat-card-content>{{user.name}}</mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button (click)="onClickUnblockUser(user)"> Unblock user</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </mat-card>

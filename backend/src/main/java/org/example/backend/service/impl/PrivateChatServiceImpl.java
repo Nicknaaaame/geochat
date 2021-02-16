@@ -15,8 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,13 +49,28 @@ public class PrivateChatServiceImpl implements PrivateChatService {
         return repository.findByUsersIn(Set.of(userService.getUser())).stream()
                 .map(privateChat -> new PrivateChatDto(
                         privateChat.getId(),
-                        privateChat.getUsers().stream().filter(user -> !user.getId().equals(currentUser.getId()))
-                                .findFirst().orElseThrow(() -> new RuntimeException("This chat contains the same users"))))
+                        getOtherUser(privateChat)
+                ))
                 .collect(Collectors.toList());
     }
 
     @Override
     public PrivateChat getPrivateChat(Long id) {
         return repository.findById(id).orElseThrow(() -> new PrivateChatNotFoundException(id));
+    }
+
+    @Override
+    public User getOtherUser(PrivateChat privateChat) {
+        User currentUser = userService.getUser();
+        return privateChat.getUsers().stream().filter(user -> !user.getId().equals(currentUser.getId()))
+                .findFirst().orElseThrow(() -> new RuntimeException("This chat contains the same users"));
+    }
+
+    @Override
+    public Optional<PrivateChat> getPrivateChat(User user) {
+        return repository.findByUsersIn(Set.of(userService.getUser()))
+                .stream()
+                .filter(privateChat -> privateChat.getUsers().equals(Set.of(userService.getUser(), user)))
+                .findFirst();
     }
 }

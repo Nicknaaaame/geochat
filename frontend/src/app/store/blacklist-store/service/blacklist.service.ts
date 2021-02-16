@@ -9,6 +9,7 @@ import {Store} from "@ngrx/store";
 import {getProfile} from "../../profile-store/store/profile.selectors";
 import {flatMap} from "rxjs/internal/operators";
 import {profileReducer} from "../../profile-store/store/profile.reducer";
+import {User} from "../../user-store/service/user.model";
 
 @Injectable({
   providedIn: 'root'
@@ -28,11 +29,11 @@ export class BlacklistService {
   }
 
   getBlackList() {
-    return this.http.get<Blacklist[]>(this.apiUrl)
+    return this.http.get<User[]>(this.apiUrl)
   }
 
   getBlockedList() {
-    return this.http.get<Blacklist[]>(this.apiUrl + "/blocked")
+    return this.http.get<User[]>(this.apiUrl + "/blocked")
   }
 
   isUserBlocked(userId: number | string): Observable<boolean> {
@@ -50,5 +51,9 @@ export class BlacklistService {
       return !!value.find(entry => entry.blocked.id == userId)
     }))*/
     return this.http.get<boolean>(this.apiUrl + `/is-in-blacklist/${userId}`)
+  }
+
+  canWrite(chatId: number | string): Observable<boolean> {
+    return this.http.get<boolean>(this.apiUrl + `/can-write/${chatId}`)
   }
 }

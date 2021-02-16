@@ -65,7 +65,7 @@ public class LocalChatServiceImpl implements LocalChatService {
         localChat.getUsers().add(userService.getUser());
         messageService.saveMessage(new Message(
                 null,
-                "",
+                "Joined",
                 MessageType.JOINED,
                 localChat,
                 null,

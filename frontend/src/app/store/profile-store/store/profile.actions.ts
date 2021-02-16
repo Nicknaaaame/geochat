@@ -17,15 +17,15 @@ export const loadProfileFailed = createAction(
 
 export const updateProfile = createAction(
   '[Profile] update profile',
-  props<{profile: Profile}>()
+  props<{profile: Profile, popup?: string}>()
 )
 
 export const updateProfileSuccess = createAction(
   '[Profile] update profile success',
-  props<{profile: Profile}>()
+  props<{profile: Profile, popup?: string}>()
 )
 
 export const updateProfileFailed = createAction(
   '[Profile] update profile failed',
-  props<{serverError: string}>()
+  props<{serverError: string, popup?: string}>()
 )
