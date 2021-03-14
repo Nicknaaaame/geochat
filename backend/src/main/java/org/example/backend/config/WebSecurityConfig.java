@@ -2,7 +2,7 @@ package org.example.backend.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.jwt.TokenFilter;
-import org.example.backend.jwt.TokenStore;
+import org.example.backend.jwt.TokenProvider;
 import org.example.backend.security.CustomOAuth2UserService;
 import org.example.backend.security.CustomTokenResponseConverter;
 import org.example.backend.security.InMemoryRequestRepository;
@@ -40,14 +40,14 @@ import java.util.stream.Collectors;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final ObjectMapper mapper;
-    private final TokenStore tokenStore;
+    private final TokenProvider tokenProvider;
     private final TokenFilter tokenFilter;
     private final CustomOAuth2UserService oAuth2UserService;
 
-    public WebSecurityConfig(ObjectMapper mapper, TokenStore tokenStore,
+    public WebSecurityConfig(ObjectMapper mapper, TokenProvider tokenProvider,
                              TokenFilter tokenFilter, CustomOAuth2UserService oAuth2UserService) {
         this.mapper = mapper;
-        this.tokenStore = tokenStore;
+        this.tokenProvider = tokenProvider;
         this.tokenFilter = tokenFilter;
         this.oAuth2UserService = oAuth2UserService;
     }
@@ -156,7 +156,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                 HttpServletResponse response, Authentication authentication) throws IOException {
         String collect = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
         System.out.println(collect);
-        String token = tokenStore.generateToken(authentication);
+        String token = tokenProvider.generateToken(authentication);
         response.getWriter().write(
                 mapper.writeValueAsString(Collections.singletonMap("accessToken", token))
         );

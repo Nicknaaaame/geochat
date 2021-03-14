@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @Component
-public class TokenStore {
+public class TokenProvider {
     public String generateToken(Authentication authentication) {
         UserPrincipal oAuth2User = (UserPrincipal) authentication.getPrincipal();
         Date now = new Date();
@@ -34,7 +34,8 @@ public class TokenStore {
         try {
             Jwts.parser().setSigningKey("secret").parseClaimsJws(token);
             return true;
-        } catch (Exception ex){
+        } catch (Exception ex) {
+            ex.printStackTrace();
             return false;
         }
         /*catch (SignatureException ex) {

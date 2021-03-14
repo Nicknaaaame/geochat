@@ -10,6 +10,7 @@ import {select, Store} from "@ngrx/store"
 import {getAccessToken} from "../store/auth-store/store/auth.selectors"
 import {catchError, first} from "rxjs/operators"
 import {flatMap} from "rxjs/internal/operators"
+import {logout} from "../store/auth-store/store/auth.actions";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -36,7 +37,10 @@ export class AuthInterceptor implements HttpInterceptor {
           catchError(err => {
             if (err instanceof HttpErrorResponse) {
               if (err.status === 401) {
-                console.log('Redirect on login page OR sign out')
+                if(err.message=='Unauthorized'){
+                  console.log('Redirect on login page OR sign out')
+                  this.store$.dispatch(logout())
+                }
                 return EMPTY
               }
             }

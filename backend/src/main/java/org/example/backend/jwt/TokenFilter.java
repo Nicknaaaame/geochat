@@ -1,5 +1,6 @@
 package org.example.backend.jwt;
 
+import org.example.backend.exception.JwtValidateException;
 import org.example.backend.model.entity.User;
 import org.example.backend.security.UserPrincipal;
 import org.example.backend.service.UserService;
@@ -19,26 +20,28 @@ import java.util.HashMap;
 @Component
 public class TokenFilter extends OncePerRequestFilter {
 
-    private final TokenStore tokenStore;
+    private final TokenProvider tokenProvider;
     private final UserService userService;
 
-    public TokenFilter(TokenStore tokenStore, UserService userService) {
-        this.tokenStore = tokenStore;
+    public TokenFilter(TokenProvider tokenProvider, UserService userService) {
+        this.tokenProvider = tokenProvider;
         this.userService = userService;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("Authorization");
-        if (token != null && tokenStore.validateToken(token)) {
-            Authentication authentication = createAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
+        if (token != null)
+            if (tokenProvider.validateToken(token)) {
+                Authentication authentication = createAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } else
+                throw new JwtValidateException("Jwt not valid");
         filterChain.doFilter(request, response);
     }
 
     private Authentication createAuthentication(String token) {
-        User user = userService.getUserById(tokenStore.getId(token));
+        User user = userService.getUserById(tokenProvider.getId(token));
         UserPrincipal userPrincipal = new UserPrincipal(user, new HashMap<>());
         return new UsernamePasswordAuthenticationToken(
                 userPrincipal,

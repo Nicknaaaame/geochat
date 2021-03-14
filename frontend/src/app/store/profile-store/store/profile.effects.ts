@@ -15,6 +15,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {Store} from "@ngrx/store";
 import {GeolocationService} from "@ng-web-apis/geolocation";
 import {Location} from "../../location-store/service/location.model";
+import {logout} from "../../auth-store/store/auth.actions";
 
 @Injectable()
 export class ProfileEffects {
@@ -62,8 +63,8 @@ export class ProfileEffects {
   updateProfileSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(updateProfileSuccess),
     tap((action) => {
-      if(action.popup)
-        this.matSnackBar.open(action.popup, "CLOSE", {duration: 3000})
+        if (action.popup)
+          this.matSnackBar.open(action.popup, "CLOSE", {duration: 3000})
       }
     )
   ), {dispatch: false})
