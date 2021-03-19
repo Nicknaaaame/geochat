@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {AuthGuard} from "./auth/auth.guard";
 
 const routes: Routes = [
-  {path: '', redirectTo: 'chats', pathMatch: 'full'}
+  {path: '', redirectTo: 'chats-nearby', pathMatch: 'full'}
 ];
 
 @NgModule({

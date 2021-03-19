@@ -1,0 +1,17 @@
+<mat-card>
+  <img mat-card-avatar src="{{chat.picture}}" alt="picture">
+  <span>{{chat.name}}</span>
+<!--  <span><a (click)="">{{chat.users.length}} members</a></span>-->
+</mat-card>
+<nb-chat size="giant" *ngIf="messages$ | async as messages">
+  <nb-chat-message *ngFor="let message of messages"
+                   [type]="'text'"
+                   [message]="message.text"
+                   [sender]="message.sender.name"
+                   [avatar]="message.sender.picture"
+                   [date]="message.creationDate"
+                   [reply]="message.sender.id==userId"
+  >
+  </nb-chat-message>
+  <nb-chat-form (send)="onSendMessage($event)"></nb-chat-form>
+</nb-chat>

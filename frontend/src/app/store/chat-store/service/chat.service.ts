@@ -5,6 +5,8 @@ import {LocalChat} from "./local-chat.model";
 import {Location} from "../../location-store/service/location.model";
 import {SaveLocalChatRequest} from "./save-local-chat.request";
 import {PrivateChat} from "./private-chat.model";
+import {SaveChatRequest} from "./save-chat.request";
+import {Chat} from "./chat.model";
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,14 @@ export class ChatService {
 
   getChatsAround() {
     return this.http.get<LocalChat[]>(this.apiUrl + '/around')
+  }
+
+  createChat(request: SaveChatRequest) {
+    return this.http.post<Chat>(this.apiUrl, request)
+  }
+
+  getChatsNearby() {
+    return this.http.get<Chat[]>(this.apiUrl + '/nearby')
   }
 
   createLocalChat(request: SaveLocalChatRequest) {

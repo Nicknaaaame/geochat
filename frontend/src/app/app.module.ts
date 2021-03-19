@@ -26,6 +26,7 @@ import {NbLayoutModule, NbThemeModule} from '@nebular/theme';
 import {NbEvaIconsModule} from '@nebular/eva-icons';
 import {MessagesStoreModule} from "./store/message-store/messages-store.module";
 import {ChatStoreModule} from "./store/chat-store/chat-store.module";
+import {ChatsNearbyModule} from "./chats-nearby/chats-nearby.module";
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import {ChatStoreModule} from "./store/chat-store/chat-store.module";
     ProfileModule,
     ChatModule,
     UserPageModule,
+    ChatsNearbyModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),

@@ -1,8 +1,10 @@
 package org.example.backend.controller;
 
+import org.example.backend.model.entity.Chat;
 import org.example.backend.model.entity.LocalChat;
 import org.example.backend.model.entity.PrivateChat;
 import org.example.backend.model.request.JoinLocalChatRequest;
+import org.example.backend.model.request.SaveChatRequest;
 import org.example.backend.model.request.SaveLocalChatRequest;
 import org.example.backend.model.request.SavePrivateChatRequest;
 import org.example.backend.service.ChatService;
@@ -29,6 +31,17 @@ public class ChatController {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
+    @GetMapping("/nearby")
+    public ResponseEntity<List<Chat>> getChatsNearby(){
+        return new ResponseEntity<>(chatService.getChatsNearby(), HttpStatus.OK);
+    }
+
+    @PostMapping()
+    public ResponseEntity<Chat> saveChat(@RequestBody SaveChatRequest request){
+        return new ResponseEntity<>(chatService.saveChat(request), HttpStatus.OK);
+    }
+
+    //remove below
     @GetMapping("/around")
     public ResponseEntity<List<LocalChat>> getChatsAround() {
         return new ResponseEntity<>(localChatService.getLocalChatsAround(), HttpStatus.OK);

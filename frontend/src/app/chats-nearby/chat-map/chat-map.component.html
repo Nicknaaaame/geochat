@@ -1,0 +1,25 @@
+<div id="myMap" class="map" style="height:700px; width: 100%; padding: 0; margin: 0;"></div>
+<ng-template #createChatDialog>
+  <h2 matDialogTitle>Create chat</h2>
+  <form>
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <label>
+        <input matInput name="name" [(ngModel)]="saveChatRequest.name">
+      </label>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <label>
+        <input matInput name="description" [(ngModel)]="saveChatRequest.description">
+      </label>
+    </mat-form-field>
+  </form>
+  <mat-dialog-actions>
+    <button mat-raised-button [mat-dialog-close]="'save'" color="primary">Save</button>
+    <button mat-raised-button [mat-dialog-close]="'close'" color="warn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-dialog-actions>
+</ng-template>

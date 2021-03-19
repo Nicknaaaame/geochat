@@ -13,6 +13,14 @@ export class MessageService {
   constructor(private http: HttpClient, private socketClient: SocketClientService) {
   }
 
+  saveMessage(message: { chatId: number | string, text: string }) {
+    return this.http.post<Message>(this.apiUrl, message)
+  }
+
+  getMessages(chatId: number | string) {
+    return this.http.get<Message[]>(this.apiUrl + '/chat/' + chatId)
+  }
+
   getPrivateMessages(chatId: number | string) {
     return this.http.get<Message[]>(this.apiUrl + '/private/' + chatId)
   }

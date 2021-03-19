@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/message")
+@RequestMapping("/api/message-old")
 @CrossOrigin
 public class MessageController {
     @Autowired
