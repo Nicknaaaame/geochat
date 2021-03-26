@@ -1,10 +1,16 @@
 <div class="row">
-  <div class="col-5" *ngIf="geolocation$ | async as geo">
-    <app-chat-map *ngIf="chats$ | async as chats" [chats]="chats" [geolocation]="geo"
-                  (onChatPicked)="onChatPicked($event)"></app-chat-map>
+  <div class="col-5" *ngIf="chats$ | async as chats">
+    <!--<div *ngIf="chosenChat$ | async as chat; else els">
+      <app-chat-map [chats]="chats" [latitude]="chat.location.latitude" [longitude]="chat.location.longitude"></app-chat-map>
+    </div>
+    <ng-template #els>
+    </ng-template>-->
+    <app-chat-map *ngIf="geolocation$ | async as geo" [chats]="chats" [latitude]="geo.coords.latitude" [longitude]="geo.coords.longitude"></app-chat-map>
   </div>
   <div class="col-7">
-    <div *ngIf="!chosenChat">Select a chat on the map</div>
-    <app-chosen-chat *ngIf="chosenChat" [chat]="chosenChat"></app-chosen-chat>
+    <app-chosen-chat *ngIf="chosenChat$ | async as chat; else other_content" [chat]="chat"></app-chosen-chat>
+    <ng-template #other_content>
+      <div style="text-align: center"> <h2>Select a chat on the map</h2> </div>
+    </ng-template>
   </div>
 </div>

@@ -1,17 +1,159 @@
 <mat-card>
-  <img mat-card-avatar src="{{chat.picture}}" alt="picture">
-  <span>{{chat.name}}</span>
-<!--  <span><a (click)="">{{chat.users.length}} members</a></span>-->
+  <div style="display: flex;">
+    <img mat-card-avatar src="{{chat.picture}}" alt="picture">
+    <div style="margin-left: 20px">
+      <h3>{{chat.name}}</h3>
+      <h4 style="margin-top: -15px">{{chat.users.length}} members</h4>
+    </div>
+    <button mat-raised-button (click)="onClickInfoDialog(infoDialog)" style="position: absolute; right: 15px;">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </div>
+
+  <ng-template #infoDialog let-modal>
+    <div class="modal-header">
+      <div class="text-center">
+        <img src="{{chat.picture}}" class="rounded" alt="pic" style="max-height: 150px; max-width: 100px">
+      </div>
+      <div style="margin-left: 10px">
+        <h2 class="modal-title">{{chat.name}}</h2>
+        <h3>{{chat.description}}</h3>
+        <button *ngIf="info.isAdmin" mat-button (click)="onClickEditChatDialog(editChatDialog)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button *ngIf="info.isAdmin" mat-button (click)="onClickDeleteChatDialog(deleteChatDialog)">
+          <mat-icon>delete_forever</mat-icon>
+        </button>
+        <button *ngIf="!info.isAdmin" mat-button (click)="onClickLeaveChatDialog(leaveChatDialog)">
+          <mat-icon>exit_to_app</mat-icon>
+        </button>
+      </div>
+
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <ng-template #editChatDialog let-c="close">
+        <div class="modal-header">
+          <h2 class="modal-title" id="modal-basic-title">Chat update</h2>
+        </div>
+        <div class="modal-body">
+          <form>
+            <app-load-image (imageEmit)="editChatRequest.picture=$event"></app-load-image>
+            <br>
+            <br>
+            <mat-form-field>
+              <mat-label>Name</mat-label>
+              <label>
+                <input matInput name="name" [(ngModel)]="editChatRequest.name">
+              </label>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <mat-label>Description</mat-label>
+              <label>
+                <input matInput name="description" [(ngModel)]="editChatRequest.description">
+              </label>
+            </mat-form-field>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button mat-raised-button color="warn" (click)="c('YES')">Update</button>
+          <button mat-raised-button color="primary" (click)="c('NO')" style="margin-left: 15px">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </ng-template>
+      <ng-template #leaveChatDialog let-c="close">
+        <div class="modal-body">
+          <p>Are you sure you want to <i>leave</i> the chat?</p>
+        </div>
+        <div class="modal-footer">
+          <button mat-raised-button color="warn" (click)="c('YES')">Yes</button>
+          <button mat-raised-button color="primary" (click)="c('NO')" style="margin-left: 15px">No</button>
+        </div>
+      </ng-template>
+      <ng-template #deleteChatDialog let-c="close">
+        <div class="modal-body">
+          <p>Are you sure you want to <i>delete</i> the chat?</p>
+        </div>
+        <div class="modal-footer">
+          <button mat-raised-button color="warn" (click)="c('YES')">Yes</button>
+          <button mat-raised-button color="primary" (click)="c('NO')" style="margin-left: 15px">No</button>
+        </div>
+      </ng-template>
+    </div>
+    <div class="modal-body">
+      <h4 style="text-align: center">{{chat.users.length}} members</h4>
+      <ul ngbNav #nav="ngbNav" class="nav-tabs">
+        <li ngbNavItem>
+          <a ngbNavLink>Users</a>
+          <ng-template ngbNavContent>
+            <div class="list-group">
+              <button type="button" class="list-group-item list-group-item-action"
+                      style="margin-bottom: 3px; padding: 2px 2px 2px 2px">
+                <img mat-card-avatar src="{{chat.admin.picture}}" alt="picture">
+                {{chat.admin.name}}
+                <small>admin</small>
+              </button>
+              <div *ngFor="let user of info.users">
+                <div style="display: flex; margin-top: 3px;">
+                  <button type="button" class="list-group-item list-group-item-action"
+                          style="padding: 2px 2px 2px 2px">
+                    <img mat-card-avatar src="{{user.picture}}" alt="picture">
+                    {{user.name}}
+                  </button>
+                  <button mat-button *ngIf="info.isAdmin" (click)="onClickBlockUser(user)">
+                    <mat-icon>block</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </li>
+
+        <li ngbNavItem>
+          <a ngbNavLink>Black list</a>
+          <ng-template ngbNavContent>
+            <div class="list-group">
+              <div *ngIf="info.blackList.length==0; else blackListElse">
+                <h4 style="text-align: center">Black list is empty</h4>
+              </div>
+              <ng-template #blackListElse>
+                <div style="display: flex; margin-top: 3px;" *ngFor="let user of info.blackList">
+                  <button type="button" class="list-group-item list-group-item-action"
+                          style="padding: 2px 2px 2px 2px">
+                    <img mat-card-avatar src="{{user.picture}}" alt="picture">
+                    {{user.name}}
+                  </button>
+                  <button mat-button *ngIf="info.isAdmin" (click)="onClickUnblockUser(user)">
+                    <mat-icon>undo</mat-icon>
+                  </button>
+                </div>
+              </ng-template>
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav"></div>
+    </div>
+  </ng-template>
+
+  <nb-chat size="giant">
+    <nb-chat-message *ngFor="let message of messages"
+                     [type]="message.type"
+                     [message]="message.message"
+                     [reply]="message.reply"
+                     [sender]="message.sender"
+                     [date]="message.date"
+                     [files]="message.files"
+                     [quote]="message.quote"
+                     [avatar]="message.avatar"
+    >
+    </nb-chat-message>
+    <nb-chat-form *ngIf="canWrite" (send)="onSendMessage($event)"></nb-chat-form>
+  </nb-chat>
+  <div *ngIf="!canWrite" style="align-items: center; display: flex; justify-content: center">
+    <button mat-raised-button color="primary" (click)="onClickJoinChat()" style="width: 100%">Join</button>
+  </div>
 </mat-card>
-<nb-chat size="giant" *ngIf="messages$ | async as messages">
-  <nb-chat-message *ngFor="let message of messages"
-                   [type]="'text'"
-                   [message]="message.text"
-                   [sender]="message.sender.name"
-                   [avatar]="message.sender.picture"
-                   [date]="message.creationDate"
-                   [reply]="message.sender.id==userId"
-  >
-  </nb-chat-message>
-  <nb-chat-form (send)="onSendMessage($event)"></nb-chat-form>
-</nb-chat>
+

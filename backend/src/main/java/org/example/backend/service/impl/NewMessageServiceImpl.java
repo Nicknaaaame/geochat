@@ -1,6 +1,7 @@
 package org.example.backend.service.impl;
 
 import org.example.backend.model.entity.NewMessage;
+import org.example.backend.model.entity.enums.MessageType;
 import org.example.backend.model.request.SaveMessageRequest;
 import org.example.backend.repository.NewMessageRepository;
 import org.example.backend.service.ChatService;
@@ -28,8 +29,14 @@ public class NewMessageServiceImpl implements NewMessageService {
                 request.getText(),
                 userService.getUser(),
                 chatService.getChat(request.getChatId()),
+                MessageType.TEXT,
                 LocalDateTime.now()
         );
+        return messageRepository.save(message);
+    }
+
+    @Override
+    public NewMessage saveMessage(NewMessage message) {
         return messageRepository.save(message);
     }
 

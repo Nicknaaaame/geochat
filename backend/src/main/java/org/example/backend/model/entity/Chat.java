@@ -1,10 +1,10 @@
 package org.example.backend.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -34,4 +34,20 @@ public class Chat {
 
     @OneToOne
     private Location location;
+
+    public Chat(Long id, String name, String description, String picture, User admin, Set<User> users, Location location) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.picture = picture;
+        this.admin = admin;
+        this.users = users;
+        this.location = location;
+    }
+
+    @JsonIgnore
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "chat")
+    private List<NewMessage> messages;
 }

@@ -20,15 +20,28 @@ export class BlacklistService {
   constructor(private http: HttpClient, private store: Store) {
   }
 
-  blockUser(userId: number | string) {
+  blockUser(userId: number | string, chatId: number | string) {
+    return this.http.post(this.apiUrl + "/block", {userId, chatId})
+  }
+
+  unblockUser(userId: number | string, chatId: number | string) {
+    return this.http.post(this.apiUrl + "/unblock", {userId, chatId})
+  }
+
+  getBlackList(chatId: number | string) {
+    return this.http.get<User[]>(this.apiUrl + '/chat/' + chatId)
+  }
+
+  //remove below
+  blockUser_(userId: number | string) {
     return this.http.post(this.apiUrl + "/block/" + userId, {})
   }
 
-  unblockUser(userId: number | string) {
-    return this.http.post(this.apiUrl + "/unblock/"+userId, {})
+  unblockUser_(userId: number | string) {
+    return this.http.post(this.apiUrl + "/unblock/" + userId, {})
   }
 
-  getBlackList() {
+  getBlackList_() {
     return this.http.get<User[]>(this.apiUrl)
   }
 

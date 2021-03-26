@@ -5,18 +5,20 @@ import {
   HttpEvent,
   HttpInterceptor, HttpErrorResponse
 } from '@angular/common/http'
-import {EMPTY, Observable} from 'rxjs'
+import {EMPTY, Observable, throwError} from 'rxjs'
 import {select, Store} from "@ngrx/store"
 import {getAccessToken} from "../store/auth-store/store/auth.selectors"
 import {catchError, first} from "rxjs/operators"
 import {flatMap} from "rxjs/internal/operators"
 import {logout} from "../store/auth-store/store/auth.actions";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
-    private store$: Store
+    private store$: Store,
+    private matSnackBar: MatSnackBar
   ) {
   }
 
@@ -34,17 +36,25 @@ export class AuthInterceptor implements HttpInterceptor {
           }
         }) : request
         return next.handle(authRequest).pipe(
-          catchError(err => {
-            if (err instanceof HttpErrorResponse) {
-              if (err.status === 401) {
-                if(err.message=='Unauthorized'){
-                  console.log('Redirect on login page OR sign out')
-                  this.store$.dispatch(logout())
-                }
-                return EMPTY
+          catchError((err: HttpErrorResponse) => {
+            if (err.status === 401) {
+              if (err.error.error == 'Unauthenticated') {
+                console.log('Redirect on login page OR sign out')
+                this.store$.dispatch(logout())
               }
+              return EMPTY
             }
-            throw err
+            let errorMessage = '';
+            if (err.error instanceof ErrorEvent) {
+              // client-side error
+              errorMessage = `Error: ${err.error.message}`;
+            } else {
+              // server-side error
+              errorMessage = `${err.error.message}`;
+            }
+            console.log(errorMessage)
+            this.matSnackBar.open(errorMessage)
+            return throwError(err)
           })
         )
       })

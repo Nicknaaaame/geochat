@@ -27,6 +27,7 @@ import {NbEvaIconsModule} from '@nebular/eva-icons';
 import {MessagesStoreModule} from "./store/message-store/messages-store.module";
 import {ChatStoreModule} from "./store/chat-store/chat-store.module";
 import {ChatsNearbyModule} from "./chats-nearby/chats-nearby.module";
+import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import {ChatsNearbyModule} from "./chats-nearby/chats-nearby.module";
       useClass: AuthInterceptor, // класс интерсептора SPI
       multi: true // мы внедряем массив
     },
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 3500}},
     AuthGuard,
     GuestGuard
   ],

@@ -21,6 +21,11 @@ export class MessageService {
     return this.http.get<Message[]>(this.apiUrl + '/chat/' + chatId)
   }
 
+  onMessage(chatId: number | string) {
+    return this.socketClient.onMessage<Message>(`/topic/message/chat/${chatId}`)
+  }
+
+  //remove below
   getPrivateMessages(chatId: number | string) {
     return this.http.get<Message[]>(this.apiUrl + '/private/' + chatId)
   }

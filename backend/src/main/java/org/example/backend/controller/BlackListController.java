@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/blacklist")
+@RequestMapping("api/blacklist-old")
 public class BlackListController {
     @Autowired
     private BlackListService service;

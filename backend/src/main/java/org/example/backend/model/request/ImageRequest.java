@@ -6,8 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
-public class SaveChatRequest {
-    private String name;
-    private String description;
-    private MultipartFile picture;
+public class ImageRequest {
+    private MultipartFile file;
+    private Long id;
 }

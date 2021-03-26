@@ -23,12 +23,12 @@ export class UserPageUiComponent implements OnInit {
   }
 
   onClickBlockUser() {
-    this.blacklistService.blockUser(this.user.id).subscribe()
+    this.blacklistService.blockUser_(this.user.id).subscribe()
     this.isInBlackList = true
   }
 
   onClickUnblockUser() {
-    this.blacklistService.unblockUser(this.user.id).subscribe()
+    this.blacklistService.unblockUser_(this.user.id).subscribe()
     this.isInBlackList = false
   }
 }

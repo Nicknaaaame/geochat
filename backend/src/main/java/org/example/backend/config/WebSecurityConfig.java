@@ -64,7 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
                 .authorizeRequests()
-                    .antMatchers( "/oauth2/**", "/login**", "/ws/**")
+                    .antMatchers( "/oauth2/**", "/login**", "/ws/**", "/api/image/chat/**", "/api/image/user/**")
                         .permitAll()
                     .anyRequest()
                         .authenticated()
@@ -166,5 +166,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                           AuthenticationException authException) throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().write(mapper.writeValueAsString(Collections.singletonMap("error", "Unauthenticated")));
+        authException.printStackTrace();
     }
 }

@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit {
     this.profile$.subscribe(value => {
       this.editProfile = JSON.parse(JSON.stringify(value))
     })
-    blacklistService.getBlackList().subscribe(value => {
+    blacklistService.getBlackList_().subscribe(value => {
       this.blacklist = value
     })
   }
@@ -44,7 +44,7 @@ export class ProfileComponent implements OnInit {
   }
 
   onClickUnblockUser(user: User) {
-    this.blacklistService.unblockUser(user.id).subscribe(value => {
+    this.blacklistService.unblockUser_(user.id).subscribe(value => {
       this.blacklist.splice(this.blacklist.indexOf(user, 0), 1)
     })
   }

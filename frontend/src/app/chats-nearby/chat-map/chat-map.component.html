@@ -1,7 +1,13 @@
-<div id="myMap" class="map" style="height:700px; width: 100%; padding: 0; margin: 0;"></div>
+<!--<app-load-image></app-load-image>-->
+<mat-card>
+  <h4 *ngIf="chats.length==0">There are no chats nearby you</h4>
+  <div id="myMap" class="map" style="height:700px; width: 100%; padding: 0; margin: 5px 0 0;"></div>
+</mat-card>
 <ng-template #createChatDialog>
   <h2 matDialogTitle>Create chat</h2>
   <form>
+    <app-load-image (imageEmit)="onEmitImage($event)"></app-load-image>
+    <br>
     <mat-form-field>
       <mat-label>Name</mat-label>
       <label>
