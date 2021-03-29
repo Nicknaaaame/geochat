@@ -42,6 +42,8 @@ export class ProfileEffects {
             longitude: value.coords.longitude
           }
           this.store.dispatch(updateProfileLocation({location}))
+          if (!action.profile.location)
+            window.location.reload()
         })
       }
     )
@@ -64,7 +66,7 @@ export class ProfileEffects {
   updateProfile$ = createEffect(() => this.actions$.pipe(
     ofType(updateProfile),
     switchMap((action) => {
-      console.log(action)
+        console.log(action)
         return this.profileService.updateProfile(action.profile)
           .pipe(
             map(profile => {

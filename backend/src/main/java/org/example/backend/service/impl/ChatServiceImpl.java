@@ -42,7 +42,8 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public List<Chat> getChatsNearby() {
-        Location location = userService.getUser().getLocation();
+        User user = userService.getUser();
+        Location location = user.getLocation();
         return getChatsNearby(location, SEARCH_RADIUS);
     }
 
