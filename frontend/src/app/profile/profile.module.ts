@@ -8,6 +8,7 @@ import {MaterialModule} from "../material/material.module";
 import {FormsModule} from "@angular/forms";
 import { MapComponent } from './map/map.component';
 import { MapUiComponent } from './map/map-ui/map-ui.component';
+import {ChatsNearbyModule} from "../chats-nearby/chats-nearby.module";
 
 
 
@@ -22,6 +23,7 @@ import { MapUiComponent } from './map/map-ui/map-ui.component';
         MaterialModule,
         FormsModule,
         RouterModule.forChild(ProfileRoutes),
+        ChatsNearbyModule,
     ]
 })
 export class ProfileModule { }

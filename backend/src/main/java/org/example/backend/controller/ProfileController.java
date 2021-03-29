@@ -1,5 +1,6 @@
 package org.example.backend.controller;
 
+import org.example.backend.model.dto.LocationDto;
 import org.example.backend.model.request.UpdateProfileRequest;
 import org.example.backend.model.response.ProfileResponse;
 import org.example.backend.service.UserService;
@@ -20,7 +21,12 @@ public class ProfileController {
     }
 
     @PutMapping
-    public ResponseEntity<ProfileResponse> updateProfile(@RequestBody UpdateProfileRequest profileRequest) {
+    public ResponseEntity<ProfileResponse> updateProfile(@ModelAttribute UpdateProfileRequest profileRequest) {
         return new ResponseEntity<>(userService.updateProfile(profileRequest), HttpStatus.OK);
+    }
+
+    @PutMapping("/location")
+    public ResponseEntity<ProfileResponse> updateProfile(@RequestBody LocationDto location) {
+        return new ResponseEntity<>(userService.updateProfile(location), HttpStatus.OK);
     }
 }

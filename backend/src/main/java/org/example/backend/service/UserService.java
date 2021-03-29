@@ -1,6 +1,7 @@
 package org.example.backend.service;
 
 
+import org.example.backend.model.dto.LocationDto;
 import org.example.backend.model.entity.User;
 import org.example.backend.model.request.UpdateProfileRequest;
 import org.example.backend.model.response.ProfileResponse;
@@ -29,4 +30,6 @@ public interface UserService {
     ProfileResponse fetchProfile();
 
     ProfileResponse updateProfile(UpdateProfileRequest request);
+
+    ProfileResponse updateProfile(LocationDto location);
 }

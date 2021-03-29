@@ -10,6 +10,7 @@ import org.example.backend.model.response.ProfileResponse;
 import org.example.backend.repository.UserRepository;
 import org.example.backend.security.UserPrincipal;
 import org.example.backend.security.userinfo.AbstractOAuth2UserInfo;
+import org.example.backend.service.ImageService;
 import org.example.backend.service.LocationService;
 import org.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ public class UserServiceImpl implements UserService {
     private ProfileResponseConverter profileResponseConverter;
     @Autowired
     private LocationService locationService;
+    @Autowired
+    private ImageService imageService;
 
     @Override
     public User saveUser(User user) {
@@ -90,13 +93,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public ProfileResponse updateProfile(UpdateProfileRequest request) {
         User user = getUser();
-        user.setEmail(request.getEmail());
         user.setName(request.getName());
-        user.setPicture(request.getPicture());
-        user.setShowLocation(request.getShowLocation());
-        LocationDto location = request.getLocation();
-        user.setLocation(locationService.saveLocation(
-                new Location(location.getId(), location.getLatitude(), location.getLongitude())));
+        if (request.getPicture() != null)
+            user.setPicture(imageService.uploadUserImage(request.getPicture(), user.getPicture()));
+        return profileResponseConverter.apply(saveUser(user));
+    }
+
+    @Override
+    public ProfileResponse updateProfile(LocationDto location) {
+        User user = getUser();
+        user.setLocation(locationService.saveLocation(new Location(location.getId(), location.getLatitude(), location.getLongitude())));
         return profileResponseConverter.apply(saveUser(user));
     }
 

@@ -1,5 +1,7 @@
 import {createAction, props} from "@ngrx/store";
 import {Profile} from "../service/profile.model";
+import {UpdateProfileRequest} from "../service/update-profile.request";
+import {Location} from "../../location-store/service/location.model";
 
 export const loadProfile = createAction(
   '[Profile] load profile'
@@ -17,7 +19,12 @@ export const loadProfileFailed = createAction(
 
 export const updateProfile = createAction(
   '[Profile] update profile',
-  props<{profile: Profile, popup?: string}>()
+  props<{profile: UpdateProfileRequest, popup?: string}>()
+)
+
+export const updateProfileLocation = createAction(
+  '[Profile] update profile location',
+  props<{location: Location, popup?: string}>()
 )
 
 export const updateProfileSuccess = createAction(

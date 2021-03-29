@@ -4,7 +4,6 @@ export interface Profile {
   id: string,
   name: string,
   email: string,
-  picture: string,
-  showLocation: boolean,
+  picture: string | File,
   location: Location
 }

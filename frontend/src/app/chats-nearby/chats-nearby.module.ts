@@ -20,7 +20,10 @@ const routes: Routes = [
 ]
 
 @NgModule({
-  declarations: [ChatsNearbyComponent, ChatMapComponent, ChosenChatComponent, LoadImageComponent],
+    declarations: [ChatsNearbyComponent, ChatMapComponent, ChosenChatComponent, LoadImageComponent],
+    exports: [
+        LoadImageComponent
+    ],
     imports: [
         CommonModule,
         RouterModule.forChild(routes),

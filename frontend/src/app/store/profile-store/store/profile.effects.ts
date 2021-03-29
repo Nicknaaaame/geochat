@@ -6,7 +6,7 @@ import {
   loadProfile,
   loadProfileFailed,
   loadProfileSuccess,
-  updateProfile, updateProfileFailed,
+  updateProfile, updateProfileFailed, updateProfileLocation,
   updateProfileSuccess
 } from "./profile.actions";
 import {catchError, map, switchMap, take, tap} from "rxjs/operators";
@@ -32,19 +32,6 @@ export class ProfileEffects {
     )
   ))
 
-  updateProfile$ = createEffect(() => this.actions$.pipe(
-    ofType(updateProfile),
-    switchMap((action) =>
-      this.profileService.updateProfile(action.profile)
-        .pipe(
-          map(profile => {
-            return updateProfileSuccess({profile, popup: action.popup})
-          }),
-          catchError(err => of(updateProfileFailed({serverError: err.exception})))
-        )
-    )
-  ))
-
   loadProfileSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(loadProfileSuccess),
     tap((action) => {
@@ -54,17 +41,46 @@ export class ProfileEffects {
             latitude: value.coords.latitude,
             longitude: value.coords.longitude
           }
-          this.store.dispatch(updateProfile({profile: ({...action.profile, location})}))
+          this.store.dispatch(updateProfileLocation({location}))
         })
       }
     )
   ), {dispatch: false})
 
+  updateProfileLocation$ = createEffect(() => this.actions$.pipe(
+    ofType(updateProfileLocation),
+    switchMap((action) => {
+        return this.profileService.updateProfileLocation(action.location)
+          .pipe(
+            map(profile => {
+              return updateProfileSuccess({profile, popup: action.popup})
+            }),
+            catchError(err => of(updateProfileFailed({serverError: err.exception})))
+          )
+      }
+    )
+  ))
+
+  updateProfile$ = createEffect(() => this.actions$.pipe(
+    ofType(updateProfile),
+    switchMap((action) => {
+      console.log(action)
+        return this.profileService.updateProfile(action.profile)
+          .pipe(
+            map(profile => {
+              return updateProfileSuccess({profile, popup: action.popup})
+            }),
+            catchError(err => of(updateProfileFailed({serverError: err.exception})))
+          )
+      }
+    )
+  ))
+
   updateProfileSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(updateProfileSuccess),
     tap((action) => {
         if (action.popup)
-          this.matSnackBar.open(action.popup, "CLOSE", {duration: 3000})
+          this.matSnackBar.open(action.popup, "", {duration: 3000})
       }
     )
   ), {dispatch: false})
@@ -72,7 +88,7 @@ export class ProfileEffects {
   updateProfileFailed$ = createEffect(() => this.actions$.pipe(
     ofType(updateProfileFailed),
     tap((action) => {
-        this.matSnackBar.open(action.serverError, "CLOSE", {duration: 3000})
+        this.matSnackBar.open(action.serverError, "", {duration: 3000})
       }
     )
   ), {dispatch: false})

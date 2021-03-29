@@ -1,34 +1,18 @@
-<mat-card>
-  <mat-card-title>Profile</mat-card-title>
-  <mat-card-header>
-    <img mat-card-avatar src="{{editProfile.picture}}" alt="picture">
-  </mat-card-header>
+<mat-card style="width: min-content">
   <mat-card-content>
+    <div>
+      <img src="{{editProfile.picture}}" class="rounded" alt="pic" style="max-height: 350px; max-width: 300px">
+      <app-load-image (imageEmit)="newImage=$event" style="margin-left: 50px"></app-load-image>
+    </div>
     <form>
-      <mat-form-field>
+      <mat-form-field style="margin-top: 20px">
         <mat-label>Name</mat-label>
         <label>
           <input matInput [(ngModel)]="editProfile.name" name="name">
         </label>
       </mat-form-field>
       <br>
-      <mat-checkbox [(ngModel)]="editProfile.showLocation" name="showLocation">Show my location</mat-checkbox>
-      <br>
       <button mat-raised-button color="primary" (click)="onClickSubmit()">Submit</button>
     </form>
   </mat-card-content>
-  <app-map></app-map>
-  <h2>Blacklist</h2>
-  <div *ngIf="blacklist.length==0">Your blacklist is empty</div>
-  <div *ngFor="let user of blacklist">
-    <mat-card>
-      <mat-card-header>
-        <img mat-card-avatar src="{{user.picture}}" alt="picture">
-      </mat-card-header>
-      <mat-card-content>{{user.name}}</mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button (click)="onClickUnblockUser(user)"> Unblock user</button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
 </mat-card>

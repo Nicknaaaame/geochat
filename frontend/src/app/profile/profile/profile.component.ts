@@ -25,14 +25,11 @@ export class ProfileComponent implements OnInit {
 
   editProfile: Profile = {} as Profile
 
-  blacklist: User[] = []
+  newImage: any
 
-  constructor(private store: Store, private blacklistService: BlacklistService) {
+  constructor(private store: Store) {
     this.profile$.subscribe(value => {
       this.editProfile = JSON.parse(JSON.stringify(value))
-    })
-    blacklistService.getBlackList_().subscribe(value => {
-      this.blacklist = value
     })
   }
 
@@ -40,12 +37,11 @@ export class ProfileComponent implements OnInit {
   }
 
   onClickSubmit() {
-    this.store.dispatch(updateProfile({profile: this.editProfile, popup: "Profile was updated success"}))
-  }
-
-  onClickUnblockUser(user: User) {
-    this.blacklistService.unblockUser_(user.id).subscribe(value => {
-      this.blacklist.splice(this.blacklist.indexOf(user, 0), 1)
-    })
+    this.store.dispatch(updateProfile({
+      profile: {
+        name: this.editProfile.name,
+        picture: this.newImage,
+      }, popup: "Profile was updated success"
+    }))
   }
 }

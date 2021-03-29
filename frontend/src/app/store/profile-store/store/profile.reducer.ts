@@ -44,13 +44,17 @@ export const profileReducer = createReducer(
     loaded: true,
     serverError
   })),
-  on(updateProfile, (state, {profile})=>({
+  /*on(updateProfile, (state, {profile})=>({
     ...state,
     loading: false,
     loaded: true,
     serverError: '',
-    profile
-  })),
+    profile: {
+      id: state.profile.id,
+      email: state.profile.email,
+
+    }
+  })),*/
   on(updateProfileSuccess, (state, {profile}) => ({
     ...state,
     loading: false,

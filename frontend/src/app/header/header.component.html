@@ -1,11 +1,11 @@
 <mat-toolbar>
   <span>Geo chat</span>
   <div *ngIf="isAuth$|async">
-    <a mat-button [routerLink]="'/'"> Chats </a>
-    <a mat-button [routerLink]="'/profile'"> Profile </a>
-    <a mat-button (click)="onClickLogout()"> Logout </a>
+    <button mat-button [routerLink]="'/'"> Chats </button>
+    <button mat-button [routerLink]="'/profile'"> Profile </button>
+    <button mat-button (click)="onClickLogout()"> Logout </button>
   </div>
   <div *ngIf="!(isAuth$|async)">
-    <a mat-button [routerLink]="'/signup'"> Sign up </a>
+    <button mat-button [routerLink]="'/signup'"> Sign up </button>
   </div>
 </mat-toolbar>

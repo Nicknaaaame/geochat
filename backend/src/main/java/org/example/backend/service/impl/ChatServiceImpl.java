@@ -65,7 +65,7 @@ public class ChatServiceImpl implements ChatService {
                 null,
                 request.getName(),
                 request.getDescription(),
-                request.getPicture() == null ? currUser.getPicture() : imageService.uploadChatImage(request.getPicture()),
+                request.getPicture() == null ? currUser.getPicture() : imageService.uploadChatImage(request.getPicture(), null),
                 currUser,
                 Set.of(currUser),
                 locationService.saveLocation(newLocation)
@@ -137,7 +137,7 @@ public class ChatServiceImpl implements ChatService {
         chat.setDescription(request.getDescription());
         chat.setName(request.getName());
         if (request.getPicture() != null)
-            chat.setPicture(imageService.uploadChatImage(request.getPicture()));
+            chat.setPicture(imageService.uploadChatImage(request.getPicture(), chat.getPicture()));
         return saveChat(chat);
     }
 }

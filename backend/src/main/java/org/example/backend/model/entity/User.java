@@ -20,7 +20,6 @@ public class User {
     private String name;
     private String email;
     private String picture;
-    private Boolean showLocation = false;
 
     @OneToOne
     private Location location;

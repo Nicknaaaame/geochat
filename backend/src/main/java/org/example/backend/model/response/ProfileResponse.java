@@ -13,6 +13,5 @@ public class ProfileResponse {
     private String name;
     private String email;
     private String picture;
-    private Boolean showLocation;
     private Location location;
 }

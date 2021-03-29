@@ -15,21 +15,40 @@ import java.util.UUID;
 @Service
 public class ImageService {
 
-    public final String storageDirectoryPath = "C:\\Users\\Mi\\Desktop\\geochat-s3";
+    public final String storageDirPath = "C:\\Users\\Mi\\Desktop\\geochat-s3";
 
-    private static final String USER_IMG_URI = "\\user-img", CHAT_IMG_URI = "\\chat-img";
+    private static final String USER_IMG_FOLDER = "\\user-img", CHAT_IMG_FOLDER = "\\chat-img";
 
-    public String  uploadUserImage(MultipartFile file, Long id) {
-        uploadToLocalFileSystem(file, String.valueOf(id), USER_IMG_URI);
+    public String uploadUserImage(MultipartFile file, String oldPath) {
+        String id;
+        if (oldPath == null)
+            id = UUID.randomUUID().toString();
+        else {
+            String[] strings = oldPath.split("/");
+            id = strings[strings.length - 1];
+            try {
+                UUID uuid = UUID.fromString(id);
+                id = uuid.toString();
+            } catch (IllegalArgumentException exception) {
+                id = UUID.randomUUID().toString();
+            }
+        }
+        uploadToLocalFileSystem(file, id, USER_IMG_FOLDER);
         return ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("api/image/user/")
                 .path(String.valueOf(id))
                 .toUriString();
     }
 
-    public String uploadChatImage(MultipartFile file) {
-        String id = UUID.randomUUID().toString();
-        uploadToLocalFileSystem(file, id, CHAT_IMG_URI);
+    public String uploadChatImage(MultipartFile file, String oldPath) {
+        String id;
+        if (oldPath == null)
+            id = UUID.randomUUID().toString();
+        else {
+            String[] strings = oldPath.split("/");
+            id = strings[strings.length - 1];
+        }
+        uploadToLocalFileSystem(file, id, CHAT_IMG_FOLDER);
         return ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("api/image/chat/")
                 .path(String.valueOf(id))
@@ -38,7 +57,7 @@ public class ImageService {
 
     private void uploadToLocalFileSystem(MultipartFile file, String id, String uri) {
         String fileName = id + "." + "png";//FilenameUtils.getExtension(file.getOriginalFilename());
-        Path storageDirectory = Paths.get(storageDirectoryPath + uri);
+        Path storageDirectory = Paths.get(storageDirPath + uri);
         if (!Files.exists(storageDirectory)) {
             try {
                 Files.createDirectories(storageDirectory);
@@ -56,8 +75,8 @@ public class ImageService {
         }
     }
 
-    public byte[] getUserImage(Long id) {
-        Path destination = Paths.get(storageDirectoryPath + USER_IMG_URI + id);
+    public byte[] getUserImage(String id) {
+        Path destination = Paths.get(storageDirPath + USER_IMG_FOLDER + "\\" + id + ".png");
         try {
             return IOUtils.toByteArray(destination.toUri());
         } catch (IOException e) {
@@ -66,7 +85,7 @@ public class ImageService {
     }
 
     public byte[] getChatImage(String id) {
-        Path destination = Paths.get(storageDirectoryPath + CHAT_IMG_URI + "\\" + id + ".png");
+        Path destination = Paths.get(storageDirPath + CHAT_IMG_FOLDER + "\\" + id + ".png");
         try {
             return IOUtils.toByteArray(destination.toUri());
         } catch (IOException e) {
