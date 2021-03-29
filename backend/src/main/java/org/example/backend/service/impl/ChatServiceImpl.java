@@ -4,7 +4,7 @@ import org.example.backend.exception.ChatNotFoundException;
 import org.example.backend.exception.SaveChatException;
 import org.example.backend.model.entity.Chat;
 import org.example.backend.model.entity.Location;
-import org.example.backend.model.entity.NewMessage;
+import org.example.backend.model.entity.Message;
 import org.example.backend.model.entity.User;
 import org.example.backend.model.entity.enums.MessageType;
 import org.example.backend.model.request.SaveChatRequest;
@@ -24,25 +24,19 @@ public class ChatServiceImpl implements ChatService {
     private static final double SEARCH_RADIUS = 20d;
     private static final double ONE_DEGREE = 111d;
     @Autowired
-    private LocalChatService localChatService;
-    @Autowired
-    private PrivateChatService privateChatService;
-    @Autowired
     private ChatRepository chatRepository;
     @Autowired
     private UserService userService;
     @Autowired
     private LocationService locationService;
     @Autowired
-    private NewMessageService messageService;
+    private MessageService messageService;
     @Autowired
     private ImageService imageService;
 
     @Override
     public List<Object> getUserChats() {
         List<Object> userChats = new ArrayList<>();
-        userChats.addAll(privateChatService.getUserPrivateChats());
-        userChats.addAll(localChatService.getUserLocalChats());
         return userChats;
     }
 
@@ -92,11 +86,11 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     @Transactional
-    public NewMessage joinChat(Long chatId) {
+    public Message joinChat(Long chatId) {
         Chat chat = getChat(chatId);
         User currUser = userService.getUser();
         chat.getUsers().add(currUser);
-        NewMessage joinMessage = messageService.saveMessage(new NewMessage(
+        Message joinMessage = messageService.saveMessage(new Message(
                 null,
                 "",
                 currUser,
@@ -110,11 +104,11 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     @Transactional
-    public NewMessage leaveChat(Long chatId) {
+    public Message leaveChat(Long chatId) {
         Chat chat = getChat(chatId);
         User currUser = userService.getUser();
         chat.getUsers().remove(currUser);
-        NewMessage leftMessage = messageService.saveMessage(new NewMessage(
+        Message leftMessage = messageService.saveMessage(new Message(
                 null,
                 "",
                 currUser,

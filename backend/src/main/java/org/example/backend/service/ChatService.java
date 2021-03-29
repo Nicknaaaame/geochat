@@ -1,7 +1,7 @@
 package org.example.backend.service;
 
 import org.example.backend.model.entity.Chat;
-import org.example.backend.model.entity.NewMessage;
+import org.example.backend.model.entity.Message;
 import org.example.backend.model.request.SaveChatRequest;
 
 import java.util.List;
@@ -17,9 +17,9 @@ public interface ChatService {
 
     Chat getChat(Long id);
 
-    NewMessage joinChat(Long chatId);
+    Message joinChat(Long chatId);
 
-    NewMessage leaveChat(Long chatId);
+    Message leaveChat(Long chatId);
 
     void deleteChat(Long chatId);
 

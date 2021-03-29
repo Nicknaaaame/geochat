@@ -16,8 +16,8 @@ public class BlackList {
     private Long id;
 
     @ManyToOne
-    private User blocker;
+    private User user;
 
     @ManyToOne
-    private User blocked;
+    private Chat chat;
 }

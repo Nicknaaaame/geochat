@@ -17,6 +17,6 @@ public class Attachment {
 
     private byte[] content;
 
-    @ManyToOne
-    private Message message;
+//    @ManyToOne
+//    private Message message;
 }

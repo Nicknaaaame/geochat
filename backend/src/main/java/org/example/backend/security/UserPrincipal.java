@@ -14,7 +14,6 @@ import java.util.Map;
 
 @Getter
 @AllArgsConstructor
-//TODO create field User to contain current user state
 public class UserPrincipal implements OAuth2User {
     private Long id;
     private String name;

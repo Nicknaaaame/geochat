@@ -2,14 +2,12 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Store, StoreModule} from "@ngrx/store";
 import {AUTH_FEATURE_NAME, authReducer} from "./store/auth.reducer";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from "@angular/common/http";
 import {EffectsModule} from "@ngrx/effects";
 import {AuthEffects} from "./store/auth.effects";
 import {initAuth} from "./store/auth.actions";
 import {loadProfile} from "../profile-store/store/profile.actions";
 import {isAuth} from "./store/auth.selectors";
-import {loadChats} from "../chat-store/store/chats.actions";
-
 
 @NgModule({
   declarations: [],
@@ -27,7 +25,6 @@ export class AuthStoreModule {
     store.select(isAuth).subscribe(value => {
       if (value) {
         store.dispatch(loadProfile())
-        store.dispatch(loadChats())
       }
     })
   }

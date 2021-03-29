@@ -1,6 +1,6 @@
 package org.example.backend.controller;
 
-import org.example.backend.service.ImageService;
+import org.example.backend.service.impl.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

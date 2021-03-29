@@ -1,56 +1,47 @@
 package org.example.backend.service.impl;
 
-import org.example.backend.model.entity.LocalChat;
 import org.example.backend.model.entity.Message;
-import org.example.backend.model.entity.PrivateChat;
 import org.example.backend.model.entity.enums.MessageType;
-import org.example.backend.model.request.SaveLocalMessageRequest;
-import org.example.backend.model.request.SavePrivateMessageRequest;
+import org.example.backend.model.request.SaveMessageRequest;
 import org.example.backend.repository.MessageRepository;
-import org.example.backend.service.LocalChatService;
+import org.example.backend.service.ChatService;
 import org.example.backend.service.MessageService;
-import org.example.backend.service.PrivateChatService;
 import org.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class MessageServiceImpl implements MessageService {
     @Autowired
-    private MessageRepository repository;
-    @Autowired
-    private PrivateChatService privateChatService;
-    @Autowired
-    private LocalChatService localChatService;
+    private ChatService chatService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private MessageRepository messageRepository;
 
     @Override
-    public Message saveMessage(SavePrivateMessageRequest request) {
-        PrivateChat privateChat = privateChatService.getPrivateChat(request.getChatId());
-        return repository.save(new Message(null, request.getText(), MessageType.TEXT, null, privateChat, userService.getUser()));
-    }
-
-    @Override
-    public Message saveMessage(SaveLocalMessageRequest request) {
-        LocalChat localChat = localChatService.getLocalChat(request.getChatId());
-        return repository.save(new Message(null, request.getText(), MessageType.TEXT, localChat, null, userService.getUser()));
+    public Message saveMessage(SaveMessageRequest request) {
+        Message message = new Message(
+                null,
+                request.getText(),
+                userService.getUser(),
+                chatService.getChat(request.getChatId()),
+                MessageType.TEXT,
+                LocalDateTime.now()
+        );
+        return messageRepository.save(message);
     }
 
     @Override
     public Message saveMessage(Message message) {
-        return repository.save(message);
+        return messageRepository.save(message);
     }
 
     @Override
-    public List<Message> getPrivateMessages(Long chatId) {
-        return repository.findByPrivateChatIdEquals(chatId);
-    }
-
-    @Override
-    public List<Message> getLocalMessages(Long chatId) {
-        return repository.findByLocalChatIdEquals(chatId);
+    public List<Message> getMessages(Long chatId) {
+        return messageRepository.findByChatIdEquals(chatId);
     }
 }

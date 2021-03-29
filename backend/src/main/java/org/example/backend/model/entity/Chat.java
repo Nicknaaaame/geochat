@@ -49,5 +49,5 @@ public class Chat {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "chat")
-    private List<NewMessage> messages;
+    private List<Message> messages;
 }

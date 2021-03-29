@@ -1,16 +1,14 @@
 package org.example.backend.repository;
 
 import org.example.backend.model.entity.BlackList;
-import org.example.backend.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface BlackListRepository extends JpaRepository<BlackList, Long> {
-    Optional<BlackList> findByBlockerAndBlocked(User blocker, User blocked);
+    void deleteByUser_IdAndChat_Id(Long userId, Long chatId);
 
-    List<BlackList> findAllByBlocker(User user);
+    List<BlackList> findAllByChat_Id(Long chatId);
 
-    List<BlackList> findAllByBlocked(User user);
+    Boolean existsByUser_IdAndChat_Id(Long userId, Long chatId);
 }

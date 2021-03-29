@@ -10,7 +10,6 @@ import org.example.backend.model.response.ProfileResponse;
 import org.example.backend.repository.UserRepository;
 import org.example.backend.security.UserPrincipal;
 import org.example.backend.security.userinfo.AbstractOAuth2UserInfo;
-import org.example.backend.service.ImageService;
 import org.example.backend.service.LocationService;
 import org.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

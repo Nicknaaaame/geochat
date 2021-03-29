@@ -1,17 +1,16 @@
 package org.example.backend.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "usr")
-//TODO add field "isOnline"
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,12 +22,6 @@ public class User {
 
     @OneToOne
     private Location location;
-
-    @JsonIgnore
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @ManyToMany(mappedBy = "users")
-    private Set<LocalChat> localChats;
 
     public User(Long id, String providerId, String name, String email, String picture) {
         this.id = id;

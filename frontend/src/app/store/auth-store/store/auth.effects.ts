@@ -1,14 +1,12 @@
 import {Injectable} from "@angular/core"
 import {Actions, createEffect, ofType} from "@ngrx/effects"
-import {catchError, distinctUntilChanged, map, skip, switchMap, tap} from "rxjs/operators"
+import {catchError, map, switchMap, tap} from "rxjs/operators"
 import {AuthService} from "../service/auth.service"
 import {initAuth, login, loginFailed, loginSuccess, logout, logoutSuccess} from "./auth.actions"
 import {of} from "rxjs"
 import {AuthData} from "./auth.reducer"
-import {loadProfile} from "../../profile-store/store/profile.actions"
 import {Router} from "@angular/router"
-import {select, Store} from "@ngrx/store"
-import {isAuth} from "./auth.selectors"
+import {Store} from "@ngrx/store"
 
 @Injectable()
 export class AuthEffects {

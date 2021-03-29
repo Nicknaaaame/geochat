@@ -1,4 +1,4 @@
-package org.example.backend.service;
+package org.example.backend.service.impl;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;

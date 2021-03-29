@@ -3,10 +3,6 @@ import {Store} from "@ngrx/store";
 import {getProfile} from "../../store/profile-store/store/profile.selectors";
 import {Profile} from "../../store/profile-store/service/profile.model";
 import {updateProfile} from "../../store/profile-store/store/profile.actions";
-import {Message} from "../../store/message-store/service/message.model";
-import {Blacklist} from "../../store/blacklist-store/service/blacklist.model";
-import {BlacklistService} from "../../store/blacklist-store/service/blacklist.service";
-import {User} from "../../store/user-store/service/user.model";
 
 @Component({
   selector: 'app-profile',
