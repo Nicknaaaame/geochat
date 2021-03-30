@@ -2,6 +2,7 @@
   <span>Geo chat</span>
   <div *ngIf="isAuth$|async">
     <button mat-button [routerLink]="'/'"> Chats </button>
+    <button mat-button [routerLink]="'/user-chats'"> User chats </button>
     <button mat-button [routerLink]="'/profile'"> Profile </button>
     <button mat-button (click)="onClickLogout()"> Logout </button>
   </div>

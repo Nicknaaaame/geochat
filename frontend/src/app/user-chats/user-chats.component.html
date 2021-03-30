@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-5">
+    <app-chat-list *ngIf="chats$ | async as chats" [chats]="chats"></app-chat-list>
+  </div>
+  <div class="col-7">
+    <app-chosen-chat *ngIf="chosenChat$ | async as chat; else other_content" [chat]="chat"></app-chosen-chat>
+    <ng-template #other_content>
+      <div style="text-align: center"><h2>Select a chat</h2></div>
+    </ng-template>
+  </div>
+</div>

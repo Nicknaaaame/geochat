@@ -9,13 +9,15 @@ import org.example.backend.model.entity.User;
 import org.example.backend.model.entity.enums.MessageType;
 import org.example.backend.model.request.SaveChatRequest;
 import org.example.backend.repository.ChatRepository;
-import org.example.backend.service.*;
+import org.example.backend.service.ChatService;
+import org.example.backend.service.LocationService;
+import org.example.backend.service.MessageService;
+import org.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -35,9 +37,8 @@ public class ChatServiceImpl implements ChatService {
     private ImageService imageService;
 
     @Override
-    public List<Object> getUserChats() {
-        List<Object> userChats = new ArrayList<>();
-        return userChats;
+    public List<Chat> getUserChats() {
+        return chatRepository.findByUsersIn(Set.of(userService.getUser()));
     }
 
     @Override
@@ -53,8 +54,8 @@ public class ChatServiceImpl implements ChatService {
         User currUser = userService.getUser();
         Location userLocation = currUser.getLocation();
 
-        if (getChatsNearby(userLocation, 0.001).size() > 0)
-            throw new SaveChatException("Chat nearby 1 meters already exists");
+        if (getChatsNearby(userLocation, 0.003).size() > 0)
+            throw new SaveChatException("Chat nearby 3 meters already exists");
         Location newLocation = new Location(null, userLocation.getLatitude(), userLocation.getLongitude());
         Chat chat = new Chat(
                 null,

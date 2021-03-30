@@ -53,7 +53,6 @@ export class ChatMapComponent implements OnInit, AfterViewInit {
     let lat1 = this.latitude - delta, lat2 = this.latitude + delta,
       lon1 = this.longitude - delta, lon2 = this.longitude + delta
     this.myMap = new ymaps.Map('myMap', {
-      // center: [this.geolocation.coords.latitude, this.geolocation.coords.longitude],
       center: [this.latitude, this.longitude],
       zoom: 15,
       controls: [],
@@ -77,7 +76,6 @@ export class ChatMapComponent implements OnInit, AfterViewInit {
   }
 
   onClickOpenChat(chat: Chat) {
-    // this.router.navigate(['chats-nearby/' + chat.id])
     this.router.navigate(['chats-nearby', {'chatId': chat.id}])
   }
 
@@ -109,7 +107,6 @@ export class ChatMapComponent implements OnInit, AfterViewInit {
         pic: chat.picture,
       },
       {
-        // balloonContentLayout: balloonContentLayout,
         balloonPanelMaxMapArea: 0,
         iconLayout: iconLayout,
         iconShape: {

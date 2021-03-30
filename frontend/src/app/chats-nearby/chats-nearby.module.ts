@@ -13,17 +13,16 @@ import { LoadImageComponent } from './load-image/load-image.component';
 
 const routes: Routes = [
   {
-    // path: 'chats-nearby', redirectTo: 'chats-nearby/', pathMatch: 'full', canActivate: [AuthGuard],
     path: 'chats-nearby',  component: ChatsNearbyComponent, canActivate: [AuthGuard],
   },
-
 ]
 
 @NgModule({
     declarations: [ChatsNearbyComponent, ChatMapComponent, ChosenChatComponent, LoadImageComponent],
-    exports: [
-        LoadImageComponent
-    ],
+  exports: [
+    LoadImageComponent,
+    ChosenChatComponent
+  ],
     imports: [
         CommonModule,
         RouterModule.forChild(routes),

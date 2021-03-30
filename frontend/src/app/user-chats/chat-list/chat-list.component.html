@@ -1,0 +1,6 @@
+<div *ngFor="let i of indexArray">
+  <div class="row">
+    <app-chat-list-unit class="col-sm" [chat]="chats[i]"></app-chat-list-unit>
+    <app-chat-list-unit class="col-sm" *ngIf="chats[i+1]" [chat]="chats[i+1]"></app-chat-list-unit>
+  </div>
+</div>

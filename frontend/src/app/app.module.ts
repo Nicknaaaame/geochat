@@ -26,6 +26,7 @@ import {MessagesStoreModule} from "./store/message-store/messages-store.module";
 import {ChatStoreModule} from "./store/chat-store/chat-store.module";
 import {ChatsNearbyModule} from "./chats-nearby/chats-nearby.module";
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from "@angular/material/snack-bar";
+import {UserChatsModule} from "./user-chats/user-chats.module";
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from "@angular/material/snack-bar";
     ChatStoreModule,
     ProfileModule,
     ChatsNearbyModule,
+    UserChatsModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),

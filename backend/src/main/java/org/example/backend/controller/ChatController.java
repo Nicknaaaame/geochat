@@ -32,7 +32,10 @@ public class ChatController {
         return new ResponseEntity<>(chatService.getChatsNearby(), HttpStatus.OK);
     }
 
-
+    @GetMapping("/user")
+    public ResponseEntity<List<Chat>> getUserChats() {
+        return new ResponseEntity<>(chatService.getUserChats(), HttpStatus.OK);
+    }
 
     @PostMapping()
     public ResponseEntity<Chat> saveChat(@ModelAttribute SaveChatRequest request) {

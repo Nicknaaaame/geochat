@@ -35,6 +35,10 @@ export class ChatService {
     return this.http.get<Chat[]>(this.apiUrl + '/nearby')
   }
 
+  getUserChats() {
+    return this.http.get<Chat[]>(this.apiUrl + '/user')
+  }
+
   getChat(chatId: number | string | null) {
     return this.http.get<Chat>(this.apiUrl + '/' + chatId)
   }

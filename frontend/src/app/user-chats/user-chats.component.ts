@@ -1,22 +1,24 @@
-import {Component, OnInit} from '@angular/core';
-import {GeolocationService} from "@ng-web-apis/geolocation";
+import { Component, OnInit } from '@angular/core';
 import {ChatService} from "../store/chat-store/service/chat.service";
-import {Chat} from "../store/chat-store/service/chat.model";
-import {ActivatedRoute, Route, Router} from "@angular/router";
 import {Observable, throwError} from "rxjs";
+import {Chat} from "../store/chat-store/service/chat.model";
+import {GeolocationService} from "@ng-web-apis/geolocation";
+import {ActivatedRoute, Router} from "@angular/router";
 import {catchError} from "rxjs/operators";
 
 @Component({
-  selector: 'app-chats-nearby',
-  templateUrl: './chats-nearby.component.html',
-  styles: []
+  selector: 'app-user-chats',
+  templateUrl: './user-chats.component.html',
+  styles: [
+  ]
 })
-export class ChatsNearbyComponent implements OnInit {
-  chats$ = this.chatService.getChatsNearby()
+export class UserChatsComponent implements OnInit {
+  chats$ = this.chatService.getUserChats()
+
   chosenChat$!: Observable<Chat>
   chatId!: string | null
 
-  constructor(public geolocation$: GeolocationService, public chatService: ChatService,
+  constructor(public chatService: ChatService,
               private route: ActivatedRoute, private router: Router) {
   }
 
@@ -30,4 +32,5 @@ export class ChatsNearbyComponent implements OnInit {
         }))
     })
   }
+
 }
