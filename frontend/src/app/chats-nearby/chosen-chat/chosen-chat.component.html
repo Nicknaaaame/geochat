@@ -37,27 +37,30 @@
           <h2 class="modal-title" id="modal-basic-title">Chat update</h2>
         </div>
         <div class="modal-body">
-          <form>
-            <app-load-image (imageEmit)="editChatRequest.picture=$event"></app-load-image>
+          <form [formGroup]="form">
+            <app-load-image (imageEmit)="form.patchValue({picture:$event})"></app-load-image>
             <br>
             <br>
             <mat-form-field>
               <mat-label>Name</mat-label>
               <label>
-                <input matInput name="name" [(ngModel)]="editChatRequest.name">
+                <input matInput formControlName="name">
               </label>
+              <mat-error *ngIf="form.controls['name'].invalid">Please enter a valid name</mat-error>
             </mat-form-field>
             <br>
             <mat-form-field>
               <mat-label>Description</mat-label>
               <label>
-                <input matInput name="description" [(ngModel)]="editChatRequest.description">
+                <textarea matInput formControlName="description" cdkTextareaAutosize cdkAutosizeMaxRows="7"
+                          style="overflow: auto"></textarea>
               </label>
+              <mat-error *ngIf="form.controls['description'].invalid">Max length of desc is 1024</mat-error>
             </mat-form-field>
           </form>
         </div>
         <div class="modal-footer">
-          <button mat-raised-button color="warn" (click)="c('YES')">Update</button>
+          <button mat-raised-button color="warn" (click)="c('YES')" [disabled]="!form.valid">Update</button>
           <button mat-raised-button color="primary" (click)="c('NO')" style="margin-left: 15px">
             <mat-icon>close</mat-icon>
           </button>

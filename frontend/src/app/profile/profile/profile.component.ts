@@ -3,29 +3,27 @@ import {Store} from "@ngrx/store";
 import {getProfile} from "../../store/profile-store/store/profile.selectors";
 import {Profile} from "../../store/profile-store/service/profile.model";
 import {updateProfile} from "../../store/profile-store/store/profile.actions";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styles: [`
-    .profile {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  `]
+  styles: []
 })
 export class ProfileComponent implements OnInit {
 
   profile$ = this.store.select(getProfile)
 
-  editProfile: Profile = {} as Profile
+  form!: FormGroup
+  profile!: Profile
 
-  newImage: any
-
-  constructor(private store: Store) {
+  constructor(private store: Store, private fb: FormBuilder) {
     this.profile$.subscribe(value => {
-      this.editProfile = JSON.parse(JSON.stringify(value))
+      this.profile = JSON.parse(JSON.stringify(value))
+      this.form = this.fb.group({
+        name: [this.profile.name, [Validators.required, Validators.minLength(3), Validators.maxLength(52)]],
+        picture: [null]
+      })
     })
   }
 
@@ -35,8 +33,8 @@ export class ProfileComponent implements OnInit {
   onClickSubmit() {
     this.store.dispatch(updateProfile({
       profile: {
-        name: this.editProfile.name,
-        picture: this.newImage,
+        name: this.form.controls['name'].value,
+        picture: this.form.controls['picture'].value,
       }, popup: "Profile was updated success"
     }))
   }

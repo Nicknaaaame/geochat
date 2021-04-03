@@ -16,6 +16,7 @@ import {MatDialog} from "@angular/material/dialog";
 import * as $ from "jquery";
 import {Route, Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 declare var ymaps: any
 
@@ -33,12 +34,13 @@ export class ChatMapComponent implements OnInit, AfterViewInit {
   longitude!: number
   @Input()
   chats!: Chat[]
-  saveChatRequest = {} as ChatRequest
   private myMap: any
   clusterer: any
+  form!: FormGroup
+
 
   constructor(private dialog: MatDialog, private chatService: ChatService, private router: Router,
-              private zone: NgZone) {
+              private zone: NgZone, private fb: FormBuilder) {
   }
 
   ngAfterViewInit(): void {
@@ -46,6 +48,11 @@ export class ChatMapComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     ymaps.ready().done(() => this.initMap())
+    this.form = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(52)]],
+      description: ['', [Validators.maxLength(1028)]],
+      picture: [null]
+    })
   }
 
   initMap() {
@@ -82,16 +89,21 @@ export class ChatMapComponent implements OnInit, AfterViewInit {
   onClickAddChat() {
     this.dialog.open(this.createChatDialog).afterClosed().subscribe(value => {
       if (value == 'save') {
-        this.chatService.createChat(this.saveChatRequest).subscribe(chat => {
-          this.clusterer.add(this.createPlacemark(chat))
-          this.chats.push(chat)
-        })
+        if (this.form.valid)
+          this.chatService.createChat({
+            picture: this.form.controls['picture'].value,
+            name: this.form.controls['name'].value,
+            description: this.form.controls['description'].value,
+          }).subscribe(chat => {
+            this.clusterer.add(this.createPlacemark(chat))
+            this.chats.push(chat)
+          })
       }
     })
   }
 
   onEmitImage(image: File) {
-    this.saveChatRequest.picture = image
+    this.form.patchValue({picture: image})
   }
 
   createPlacemark(chat: Chat) {

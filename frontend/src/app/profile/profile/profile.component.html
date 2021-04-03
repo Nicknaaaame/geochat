@@ -1,18 +1,19 @@
 <mat-card style="width: min-content">
   <mat-card-content>
     <div>
-      <img src="{{editProfile.picture}}" class="rounded" alt="pic" style="max-height: 350px; max-width: 300px">
-      <app-load-image (imageEmit)="newImage=$event" style="margin-left: 50px"></app-load-image>
+      <img src="{{profile.picture}}" class="rounded" alt="pic" style="max-height: 350px; max-width: 300px">
+      <app-load-image (imageEmit)="form.patchValue({picture: $event})" style="margin-left: 50px"></app-load-image>
     </div>
-    <form>
+    <form [formGroup]="form">
       <mat-form-field style="margin-top: 20px">
         <mat-label>Name</mat-label>
         <label>
-          <input matInput [(ngModel)]="editProfile.name" name="name">
+          <input matInput formControlName="name">
+          <mat-error *ngIf="form.controls['name'].invalid">Please enter a valid name</mat-error>
         </label>
       </mat-form-field>
       <br>
-      <button mat-raised-button color="primary" (click)="onClickSubmit()">Submit</button>
+      <button mat-raised-button color="primary" (click)="onClickSubmit()" [disabled]="!form.valid">Submit</button>
     </form>
   </mat-card-content>
 </mat-card>

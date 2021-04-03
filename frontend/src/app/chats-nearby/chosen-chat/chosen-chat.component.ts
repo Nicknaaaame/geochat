@@ -12,6 +12,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {User} from "../../store/user-store/service/user.model";
 import {BlacklistService} from "../../store/blacklist-store/service/blacklist.service";
 import {ChatRequest} from "../../store/chat-store/service/chat.request";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-chosen-chat',
@@ -29,13 +30,15 @@ export class ChosenChatComponent implements OnInit {
     blackList: [] as User[],
     isAdmin: false
   }
-  editChatRequest = {} as ChatRequest
+  form!: FormGroup
 
   constructor(private store: Store, private messageService: MessageService, private blacklistService: BlacklistService,
-              private chatService: ChatService, private matSnackBar: MatSnackBar, private modalService: NgbModal) {
+              private chatService: ChatService, private matSnackBar: MatSnackBar, private modalService: NgbModal,
+              private fb: FormBuilder) {
     store.select(getProfile).subscribe(value => {
       this.userId = value.id
     })
+
   }
 
   ngOnInit(): void {
@@ -45,8 +48,11 @@ export class ChosenChatComponent implements OnInit {
       value.forEach(message => this.messages.push(this.convertMessage(message)))
     })
     this.messageService.onMessage(this.chat.id).subscribe(message => this.messages.push(this.convertMessage(message)))
-    this.editChatRequest.name = this.chat.name
-    this.editChatRequest.description = this.chat.description
+    this.form = this.fb.group({
+      name: [ this.chat.name, [Validators.required, Validators.minLength(3), Validators.maxLength(52)]],
+      description: [this.chat.description, [Validators.maxLength(1028)]],
+      picture: [null]
+    })
   }
 
   updateChat() {
@@ -84,7 +90,11 @@ export class ChosenChatComponent implements OnInit {
   onClickEditChatDialog(dialog: TemplateRef<any>) {
     this.modalService.open(dialog, {centered: true, size: 'sm'}).closed.subscribe(value => {
       if (value == 'YES') {
-        this.chatService.updateChat(this.chat.id, this.editChatRequest).subscribe()
+        this.chatService.updateChat(this.chat.id, {
+          picture: this.form.controls['picture'].value,
+          name: this.form.controls['name'].value,
+          description: this.form.controls['description'].value,
+        }).subscribe()
         window.location.reload()
       }
     })

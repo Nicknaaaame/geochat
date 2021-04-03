@@ -5,7 +5,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {AuthGuard} from "../auth/auth.guard";
 import {ChatMapComponent} from './chat-map/chat-map.component';
 import {MaterialModule} from "../material/material.module";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ChosenChatComponent} from './chosen-chat/chosen-chat.component';
 import {NbCardModule, NbChatModule} from "@nebular/theme";
 import {NgbNavModule} from "@ng-bootstrap/ng-bootstrap";
@@ -31,6 +31,7 @@ const routes: Routes = [
         NbChatModule,
         NbCardModule,
         NgbNavModule,
+        ReactiveFormsModule,
     ]
 })
 export class ChatsNearbyModule {
