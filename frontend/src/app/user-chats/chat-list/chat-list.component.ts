@@ -17,8 +17,9 @@ export class ChatListComponent implements OnInit {
 
   ngOnInit(): void {
     let range = this.chats.length == 1 ? 1 : this.chats.length - 1
-    for (let i = 0; i < range; i++) {
+    for (let i = 0; i <= range; i++) {
       this.indexArray.push(i)
+      i++
     }
   }
 }

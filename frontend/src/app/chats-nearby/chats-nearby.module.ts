@@ -8,7 +8,7 @@ import {MaterialModule} from "../material/material.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ChosenChatComponent} from './chosen-chat/chosen-chat.component';
 import {NbCardModule, NbChatModule} from "@nebular/theme";
-import {NgbNavModule} from "@ng-bootstrap/ng-bootstrap";
+import {NgbNavModule, NgbPopoverModule} from "@ng-bootstrap/ng-bootstrap";
 import { LoadImageComponent } from './load-image/load-image.component';
 
 const routes: Routes = [
@@ -23,16 +23,17 @@ const routes: Routes = [
     LoadImageComponent,
     ChosenChatComponent
   ],
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        MaterialModule,
-        FormsModule,
-        NbChatModule,
-        NbCardModule,
-        NgbNavModule,
-        ReactiveFormsModule,
-    ]
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    MaterialModule,
+    FormsModule,
+    NbChatModule,
+    NbCardModule,
+    NgbNavModule,
+    ReactiveFormsModule,
+    NgbPopoverModule,
+  ]
 })
 export class ChatsNearbyModule {
 }

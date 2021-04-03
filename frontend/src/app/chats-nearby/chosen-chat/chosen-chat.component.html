@@ -91,16 +91,22 @@
         <li ngbNavItem>
           <a ngbNavLink>Users</a>
           <ng-template ngbNavContent>
-            <div class="list-group">
-              <button type="button" class="list-group-item list-group-item-action"
-                      style="margin-bottom: 3px; padding: 2px 2px 2px 2px">
-                <img mat-card-avatar src="{{chat.admin.picture}}" alt="picture">
-                {{chat.admin.name}}
-                <small>admin</small>
-              </button>
-              <div *ngFor="let user of info.users">
+            <ng-template #adminImgPop>
+              <img src="{{chat.admin.picture}}" class="rounded" alt="pic" style="max-height: 100%; max-width: 100%">
+            </ng-template>
+            <button type="button" class="list-group-item list-group-item-action" [ngbPopover]="adminImgPop"
+                    style="margin-bottom: 3px; padding: 2px 2px 2px 2px">
+              <img mat-card-avatar src="{{chat.admin.picture}}" alt="picture">
+              {{chat.admin.name}}
+              <small>admin</small>
+            </button>
+            <div *ngFor="let user of info.users">
+              <ng-template #userImgPop>
+                <img src="{{user.picture}}" class="rounded" alt="pic" style="max-height: 350px; max-width: 300px">
+              </ng-template>
+              <div class="list-group">
                 <div style="display: flex; margin-top: 3px;">
-                  <button type="button" class="list-group-item list-group-item-action"
+                  <button type="button" class="list-group-item list-group-item-action" [ngbPopover]="userImgPop"
                           style="padding: 2px 2px 2px 2px">
                     <img mat-card-avatar src="{{user.picture}}" alt="picture">
                     {{user.name}}

@@ -84,7 +84,7 @@ export class ChosenChatComponent implements OnInit {
 
   onClickInfoDialog(dialog: any) {
     this.updateChat()
-    this.modalService.open(dialog, {centered: true, size: 'sm'})
+    this.modalService.open(dialog, {centered: true, size: 'lg'})
   }
 
   onClickEditChatDialog(dialog: TemplateRef<any>) {
