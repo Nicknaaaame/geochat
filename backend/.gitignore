@@ -35,3 +35,5 @@ out/
 
 ### VS Code ###
 .vscode/
+/src/main/resources/static/images/chat-img/
+/src/main/resources/static/images/user-img/

@@ -123,8 +123,11 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
+    @Transactional
     public void deleteChat(Long chatId) {
-        chatRepository.deleteById(chatId);
+        Chat chat = getChat(chatId);
+        chatRepository.delete(chat);
+        imageService.deleteChatImage(chat.getPicture());
     }
 
     @Override

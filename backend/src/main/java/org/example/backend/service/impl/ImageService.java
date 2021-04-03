@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Service
 public class ImageService {
 
-    public final String storageDirPath = "C:\\Users\\Mi\\Desktop\\geochat-s3";
+    public final String storageDirPath = "backend/src/main/resources/static/images";
 
     private static final String USER_IMG_FOLDER = "\\user-img", CHAT_IMG_FOLDER = "\\chat-img";
 
@@ -55,8 +56,23 @@ public class ImageService {
                 .toUriString();
     }
 
+    public void deleteChatImage(String path) {
+        String id;
+        String[] strings = path.split("/");
+        id = strings[strings.length - 1];
+        try {
+            UUID uuid = UUID.fromString(id);
+            id = uuid.toString();
+            String fileName = id + "." + "png";
+            Path imgPath = Paths.get(storageDirPath + CHAT_IMG_FOLDER + "\\" + fileName);
+            File imgFile = imgPath.toFile();
+            imgFile.delete();
+        } catch (IllegalArgumentException ignored) {
+        }
+    }
+
     private void uploadToLocalFileSystem(MultipartFile file, String id, String uri) {
-        String fileName = id + "." + "png";//FilenameUtils.getExtension(file.getOriginalFilename());
+        String fileName = id + "." + "png";
         Path storageDirectory = Paths.get(storageDirPath + uri);
         if (!Files.exists(storageDirectory)) {
             try {
