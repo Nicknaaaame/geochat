@@ -1,13 +1,14 @@
 package org.example.backend.controller;
 
+import org.example.backend.converter.ChatResponseConverter;
 import org.example.backend.converter.MessageDtoConverter;
 import org.example.backend.exception.UserIsBlockedException;
-import org.example.backend.model.entity.Chat;
 import org.example.backend.model.entity.Message;
 import org.example.backend.model.request.ChatIdRequest;
 import org.example.backend.model.request.SaveChatRequest;
-import org.example.backend.service.ChatService;
+import org.example.backend.model.response.ChatResponse;
 import org.example.backend.service.BlackListService;
+import org.example.backend.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,25 +27,27 @@ public class ChatController {
     private SimpMessagingTemplate simpMessagingTemplate;
     @Autowired
     private BlackListService blackListService;
+    @Autowired
+    private ChatResponseConverter chatResponseConverter;
 
     @GetMapping("/nearby")
-    public ResponseEntity<List<Chat>> getChatsNearby() {
-        return new ResponseEntity<>(chatService.getChatsNearby(), HttpStatus.OK);
+    public ResponseEntity<List<ChatResponse>> getChatsNearby() {
+        return new ResponseEntity<>(chatResponseConverter.toList(chatService.getChatsNearby()), HttpStatus.OK);
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<Chat>> getUserChats() {
-        return new ResponseEntity<>(chatService.getUserChats(), HttpStatus.OK);
+    public ResponseEntity<List<ChatResponse>> getUserChats() {
+        return new ResponseEntity<>(chatResponseConverter.toList(chatService.getUserChats()), HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<Chat> saveChat(@ModelAttribute SaveChatRequest request) {
-        return new ResponseEntity<>(chatService.saveChat(request), HttpStatus.OK);
+    public ResponseEntity<ChatResponse> saveChat(@ModelAttribute SaveChatRequest request) {
+        return new ResponseEntity<>(chatResponseConverter.apply(chatService.saveChat(request)), HttpStatus.OK);
     }
 
     @GetMapping("/{chatId}")
-    public ResponseEntity<Chat> getChat(@PathVariable Long chatId) {
-        return new ResponseEntity<>(chatService.getChat(chatId), HttpStatus.OK);
+    public ResponseEntity<ChatResponse> getChat(@PathVariable Long chatId) {
+        return new ResponseEntity<>(chatResponseConverter.apply(chatService.getChat(chatId)), HttpStatus.OK);
     }
 
     @PostMapping("/join")
@@ -71,7 +74,7 @@ public class ChatController {
     }
 
     @PutMapping("/{chatId}")
-    public ResponseEntity<Chat> updateChat(@PathVariable Long chatId, @ModelAttribute SaveChatRequest request) {
-        return new ResponseEntity<>(chatService.updateChat(chatId, request), HttpStatus.OK);
+    public ResponseEntity<ChatResponse> updateChat(@PathVariable Long chatId, @ModelAttribute SaveChatRequest request) {
+        return new ResponseEntity<>(chatResponseConverter.apply(chatService.updateChat(chatId, request)), HttpStatus.OK);
     }
 }

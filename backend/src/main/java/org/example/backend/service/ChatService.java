@@ -2,6 +2,7 @@ package org.example.backend.service;
 
 import org.example.backend.model.entity.Chat;
 import org.example.backend.model.entity.Message;
+import org.example.backend.model.entity.User;
 import org.example.backend.model.request.SaveChatRequest;
 
 import java.util.List;
@@ -24,4 +25,8 @@ public interface ChatService {
     void deleteChat(Long chatId);
 
     Chat updateChat(Long chatId, SaveChatRequest request);
+
+    void addUser(Chat chat, User user);
+
+    void removeUser(Chat chat, User user);
 }

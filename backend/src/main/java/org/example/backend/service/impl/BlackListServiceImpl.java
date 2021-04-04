@@ -29,7 +29,7 @@ public class BlackListServiceImpl implements BlackListService {
     public void blockUser(Long userId, Long chatId) {
         Chat chat = chatService.getChat(chatId);
         User user = userService.getUserById(userId);
-        chat.getUsers().remove(user);
+        chatService.removeUser(chat, user);
         chat = chatService.saveChat(chat);
         BlackList blackList = new BlackList(
                 null,
@@ -45,7 +45,7 @@ public class BlackListServiceImpl implements BlackListService {
         blackListRepository.deleteByUser_IdAndChat_Id(userId, chatId);
         Chat chat = chatService.getChat(chatId);
         User user = userService.getUserById(userId);
-        chat.getUsers().add(user);
+        chatService.addUser(chat, user);
         chatService.saveChat(chat);
     }
 

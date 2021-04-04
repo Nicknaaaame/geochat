@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Data
@@ -24,24 +24,21 @@ public class Chat {
 
     @ManyToOne
     private User admin;
-
-    @ManyToMany
-    @JoinTable(
-            name = "chat_users",
-            joinColumns = @JoinColumn(name = "chat_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> users;
+    @JsonIgnore
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.REMOVE)
+    private List<UserChats> users = new ArrayList<>();
 
     @OneToOne
     private Location location;
 
-    public Chat(Long id, String name, String description, String picture, User admin, Set<User> users, Location location) {
+    public Chat(Long id, String name, String description, String picture, User admin, Location location) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.picture = picture;
         this.admin = admin;
-        this.users = users;
         this.location = location;
     }
 

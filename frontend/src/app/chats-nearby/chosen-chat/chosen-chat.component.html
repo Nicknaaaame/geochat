@@ -24,7 +24,7 @@
         <button *ngIf="info.isAdmin" mat-button (click)="onClickDeleteChatDialog(deleteChatDialog)">
           <mat-icon>delete_forever</mat-icon>
         </button>
-        <button *ngIf="!info.isAdmin" mat-button (click)="onClickLeaveChatDialog(leaveChatDialog)">
+        <button *ngIf="!info.isAdmin && canWrite" mat-button (click)="onClickLeaveChatDialog(leaveChatDialog)">
           <mat-icon>exit_to_app</mat-icon>
         </button>
       </div>
