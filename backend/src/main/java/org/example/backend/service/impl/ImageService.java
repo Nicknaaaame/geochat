@@ -16,7 +16,8 @@ import java.util.UUID;
 @Service
 public class ImageService {
 
-    public final String storageDirPath = "backend/src/main/resources/static/images";
+    public String storageDirPath = "\\images";
+    private Path dirPath = Paths.get(Paths.get("").toAbsolutePath().getParent().toString() + storageDirPath);
 
     private static final String USER_IMG_FOLDER = "\\user-img", CHAT_IMG_FOLDER = "\\chat-img";
 
@@ -64,7 +65,7 @@ public class ImageService {
             UUID uuid = UUID.fromString(id);
             id = uuid.toString();
             String fileName = id + "." + "png";
-            Path imgPath = Paths.get(storageDirPath + CHAT_IMG_FOLDER + "\\" + fileName);
+            Path imgPath = Paths.get(dirPath + CHAT_IMG_FOLDER + "\\" + fileName);
             File imgFile = imgPath.toFile();
             imgFile.delete();
         } catch (IllegalArgumentException ignored) {
@@ -92,7 +93,7 @@ public class ImageService {
     }
 
     public byte[] getUserImage(String id) {
-        Path destination = Paths.get(storageDirPath + USER_IMG_FOLDER + "\\" + id + ".png");
+        Path destination = Paths.get(dirPath + USER_IMG_FOLDER + "\\" + id + ".png");
         try {
             return IOUtils.toByteArray(destination.toUri());
         } catch (IOException e) {
@@ -101,7 +102,7 @@ public class ImageService {
     }
 
     public byte[] getChatImage(String id) {
-        Path destination = Paths.get(storageDirPath + CHAT_IMG_FOLDER + "\\" + id + ".png");
+        Path destination = Paths.get(dirPath + CHAT_IMG_FOLDER + "\\" + id + ".png");
         try {
             return IOUtils.toByteArray(destination.toUri());
         } catch (IOException e) {
