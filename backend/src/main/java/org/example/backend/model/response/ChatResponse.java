@@ -17,4 +17,5 @@ public class ChatResponse {
     private User admin;
     private Set<User> users;
     private Location location;
+    private Boolean notification;
 }

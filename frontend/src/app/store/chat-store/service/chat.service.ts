@@ -54,4 +54,12 @@ export class ChatService {
   deleteChat(id: number | string) {
     return this.http.delete<void>(this.apiUrl + '/' + id)
   }
+
+  enableNotification(chatId: number | string) {
+    return this.http.post<void>(this.apiUrl + '/notification/enable', {chatId: chatId})
+  }
+
+  disableNotification(chatId: number | string) {
+    return this.http.post<void>(this.apiUrl + '/notification/disable', {chatId: chatId})
+  }
 }

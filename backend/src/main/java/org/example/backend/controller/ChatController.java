@@ -16,6 +16,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/chat")
@@ -32,12 +33,18 @@ public class ChatController {
 
     @GetMapping("/nearby")
     public ResponseEntity<List<ChatResponse>> getChatsNearby() {
-        return new ResponseEntity<>(chatResponseConverter.toList(chatService.getChatsNearby()), HttpStatus.OK);
+        return new ResponseEntity<>(chatResponseConverter.toList(chatService.getChatsNearby()).stream()
+                .peek(chatResponse -> chatResponse.setNotification(chatService.chatNotification(chatResponse.getId())))
+                .collect(Collectors.toList()),
+                HttpStatus.OK);
     }
 
     @GetMapping("/user")
     public ResponseEntity<List<ChatResponse>> getUserChats() {
-        return new ResponseEntity<>(chatResponseConverter.toList(chatService.getUserChats()), HttpStatus.OK);
+        return new ResponseEntity<>(chatResponseConverter.toList(chatService.getUserChats()).stream()
+                .peek(chatResponse -> chatResponse.setNotification(chatService.chatNotification(chatResponse.getId())))
+                .collect(Collectors.toList()),
+                HttpStatus.OK);
     }
 
     @PostMapping()
@@ -47,7 +54,9 @@ public class ChatController {
 
     @GetMapping("/{chatId}")
     public ResponseEntity<ChatResponse> getChat(@PathVariable Long chatId) {
-        return new ResponseEntity<>(chatResponseConverter.apply(chatService.getChat(chatId)), HttpStatus.OK);
+        ChatResponse chatResponse = chatResponseConverter.apply(chatService.getChat(chatId));
+        chatResponse.setNotification(chatService.chatNotification(chatId));
+        return new ResponseEntity<>(chatResponse, HttpStatus.OK);
     }
 
     @PostMapping("/join")
@@ -76,5 +85,17 @@ public class ChatController {
     @PutMapping("/{chatId}")
     public ResponseEntity<ChatResponse> updateChat(@PathVariable Long chatId, @ModelAttribute SaveChatRequest request) {
         return new ResponseEntity<>(chatResponseConverter.apply(chatService.updateChat(chatId, request)), HttpStatus.OK);
+    }
+
+    @PostMapping("/notification/enable")
+    public ResponseEntity<Void> enableNotification(@RequestBody ChatIdRequest request) {
+        chatService.enableNotification(chatService.getChat(request.getChatId()));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/notification/disable")
+    public ResponseEntity<Void> disableNotification(@RequestBody ChatIdRequest request) {
+        chatService.disableNotification(chatService.getChat(request.getChatId()));
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

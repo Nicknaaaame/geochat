@@ -29,43 +29,45 @@ import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from "@angular/material/snack-bar";
 import {UserChatsModule} from "./user-chats/user-chats.module";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-    HeaderModule,
-    AuthModule,
-    AuthStoreModule,
-    ProfileStoreModule,
-    MessagesStoreModule,
-    ChatStoreModule,
-    ProfileModule,
-    ChatsNearbyModule,
-    UserChatsModule,
-    StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([]),
-    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
-    StoreRouterConnectingModule.forRoot(),
-    NgbModule,
-    NbThemeModule.forRoot({name: 'default'}),
-    NbLayoutModule,
-    NbEvaIconsModule
-  ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS, // Injection Token
-      useClass: AuthInterceptor, // класс интерсептора SPI
-      multi: true // мы внедряем массив
-    },
-    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 3500}},
-    AuthGuard,
-    GuestGuard
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+        HeaderModule,
+        AuthModule,
+        AuthStoreModule,
+        ProfileStoreModule,
+        MessagesStoreModule,
+        ChatStoreModule,
+        ProfileModule,
+        ChatsNearbyModule,
+        UserChatsModule,
+        StoreModule.forRoot({}, {}),
+        EffectsModule.forRoot([]),
+        StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
+        StoreRouterConnectingModule.forRoot(),
+        NgbModule,
+        NbThemeModule.forRoot({name: 'default'}),
+        NbLayoutModule,
+        NbEvaIconsModule
+    ],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS, // Injection Token
+            useClass: AuthInterceptor, // класс интерсептора SPI
+            multi: true // мы внедряем массив
+        },
+        {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 3500}},
+        AuthGuard,
+        GuestGuard
+    ],
+    exports: [
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

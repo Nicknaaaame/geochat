@@ -23,7 +23,6 @@ export class ChatListUnitComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    console.log(this.currMapCount)
     ymaps.ready().done(() => this.initMap())
   }
 

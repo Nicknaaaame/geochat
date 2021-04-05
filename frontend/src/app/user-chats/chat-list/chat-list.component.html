@@ -1,3 +1,4 @@
+<h2 *ngIf="chats.length==0" style="text-align: center">You have no chat</h2>
 <div *ngFor="let i of indexArray">
   <div class="row">
     <app-chat-list-unit class="col-sm" [chat]="chats[i]"></app-chat-list-unit>

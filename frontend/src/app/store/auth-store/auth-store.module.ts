@@ -8,6 +8,8 @@ import {AuthEffects} from "./store/auth.effects";
 import {initAuth} from "./store/auth.actions";
 import {loadProfile} from "../profile-store/store/profile.actions";
 import {isAuth} from "./store/auth.selectors";
+import {ChatService} from "../chat-store/service/chat.service";
+import {NotificationService} from "../notification-service/notification.service";
 
 @NgModule({
   declarations: [],
@@ -19,12 +21,13 @@ import {isAuth} from "./store/auth.selectors";
   ]
 })
 export class AuthStoreModule {
-  constructor(private store: Store) {
+  constructor(private store: Store, private chatService: ChatService, private notificationService: NotificationService) {
     store.dispatch(initAuth())
     //TODO may be bug in future
     store.select(isAuth).subscribe(value => {
       if (value) {
         store.dispatch(loadProfile())
+        notificationService.initSubs()
       }
     })
   }

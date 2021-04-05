@@ -149,4 +149,25 @@ public class ChatServiceImpl implements ChatService {
     public void removeUser(Chat chat, User user) {
         userChatsRepository.deleteById(new UserChatsId(user.getId(), chat.getId()));
     }
+
+    @Override
+    public void enableNotification(Chat chat) {
+        User currUser = userService.getUser();
+        UserChats entity = userChatsRepository.findByChatIdAndUserId(chat.getId(), currUser.getId()).orElseThrow();
+        entity.setNotification(true);
+        userChatsRepository.save(entity);
+    }
+
+    @Override
+    public void disableNotification(Chat chat) {
+        User currUser = userService.getUser();
+        UserChats entity = userChatsRepository.findByChatIdAndUserId(chat.getId(), currUser.getId()).orElseThrow();
+        entity.setNotification(false);
+        userChatsRepository.save(entity);
+    }
+
+    @Override
+    public Boolean chatNotification(Long chatId) {
+        return chatRepository.chatNotification(chatId, userService.getUser().getId()).orElse(null);
+    }
 }

@@ -29,4 +29,10 @@ public interface ChatService {
     void addUser(Chat chat, User user);
 
     void removeUser(Chat chat, User user);
+
+    void enableNotification(Chat chat);
+
+    void disableNotification(Chat chat);
+
+    Boolean chatNotification(Long chatId);
 }

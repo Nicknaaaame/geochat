@@ -27,6 +27,14 @@
         <button *ngIf="!info.isAdmin && canWrite" mat-button (click)="onClickLeaveChatDialog(leaveChatDialog)">
           <mat-icon>exit_to_app</mat-icon>
         </button>
+        <ng-template [ngIf]="chat.notification!=undefined">
+          <button *ngIf="canWrite && chat.notification" mat-button (click)="onClickNotificationBtn(false)" >
+            <mat-icon>volume_up</mat-icon>
+          </button>
+          <button *ngIf="canWrite && !chat.notification" mat-button (click)="onClickNotificationBtn(true)">
+            <mat-icon>volume_off</mat-icon>
+          </button>
+        </ng-template>
       </div>
 
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">

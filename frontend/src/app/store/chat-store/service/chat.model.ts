@@ -7,5 +7,6 @@ export interface Chat {
   picture: string;
   admin: User,
   users: User[],
-  location: { latitude: number, longitude: number }
+  location: { latitude: number, longitude: number },
+  notification?: boolean
 }

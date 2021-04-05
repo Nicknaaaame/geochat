@@ -24,12 +24,4 @@ export class MessageService {
   onMessage(chatId: number | string) {
     return this.socketClient.onMessage<Message>(`/topic/message/chat/${chatId}`)
   }
-
-  onPrivateMessage(chatId: number | string) {
-    return this.socketClient.onMessage<Message>(`/topic/message/private/${chatId}`)
-  }
-
-  onLocalMessage(chatId: number | string) {
-    return this.socketClient.onMessage<Message>(`/topic/message/local/${chatId}`)
-  }
 }

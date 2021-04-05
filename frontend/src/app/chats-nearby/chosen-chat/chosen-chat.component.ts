@@ -13,6 +13,7 @@ import {User} from "../../store/user-store/service/user.model";
 import {BlacklistService} from "../../store/blacklist-store/service/blacklist.service";
 import {ChatRequest} from "../../store/chat-store/service/chat.request";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {NotificationService} from "../../store/notification-service/notification.service";
 
 @Component({
   selector: 'app-chosen-chat',
@@ -34,7 +35,7 @@ export class ChosenChatComponent implements OnInit {
 
   constructor(private store: Store, private messageService: MessageService, private blacklistService: BlacklistService,
               private chatService: ChatService, private matSnackBar: MatSnackBar, private modalService: NgbModal,
-              private fb: FormBuilder) {
+              private fb: FormBuilder, public notificationService: NotificationService) {
     store.select(getProfile).subscribe(value => {
       this.userId = value.id
     })
@@ -49,10 +50,11 @@ export class ChosenChatComponent implements OnInit {
     })
     this.messageService.onMessage(this.chat.id).subscribe(message => this.messages.push(this.convertMessage(message)))
     this.form = this.fb.group({
-      name: [ this.chat.name, [Validators.required, Validators.minLength(3), Validators.maxLength(52)]],
+      name: [this.chat.name, [Validators.required, Validators.minLength(3), Validators.maxLength(52)]],
       description: [this.chat.description, [Validators.maxLength(1028)]],
       picture: [null]
     })
+    console.log(this.chat)
   }
 
   updateChat() {
@@ -156,6 +158,14 @@ export class ChosenChatComponent implements OnInit {
       quote: quote,
       avatar: message.sender.picture
     }
+  }
+
+  onClickNotificationBtn(value: boolean) {
+    if (value)
+      this.notificationService.enableNotification(this.chat)
+    else
+      this.notificationService.disableNotification(this.chat)
+    this.chat.notification = value
   }
 }
 
