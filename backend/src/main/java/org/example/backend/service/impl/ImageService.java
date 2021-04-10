@@ -74,7 +74,7 @@ public class ImageService {
 
     private void uploadToLocalFileSystem(MultipartFile file, String id, String uri) {
         String fileName = id + "." + "png";
-        Path storageDirectory = Paths.get(storageDirPath + uri);
+        Path storageDirectory = Paths.get(dirPath + uri);
         if (!Files.exists(storageDirectory)) {
             try {
                 Files.createDirectories(storageDirectory);

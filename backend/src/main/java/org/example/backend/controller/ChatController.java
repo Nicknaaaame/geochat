@@ -78,12 +78,14 @@ public class ChatController {
 
     @DeleteMapping("/{chatId}")
     public ResponseEntity<Void> deleteChat(@PathVariable Long chatId) {
+        chatService.ifNotAdminThrowForbidden(chatId);
         chatService.deleteChat(chatId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/{chatId}")
     public ResponseEntity<ChatResponse> updateChat(@PathVariable Long chatId, @ModelAttribute SaveChatRequest request) {
+        chatService.ifNotAdminThrowForbidden(chatId);
         return new ResponseEntity<>(chatResponseConverter.apply(chatService.updateChat(chatId, request)), HttpStatus.OK);
     }
 

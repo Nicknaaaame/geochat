@@ -30,7 +30,7 @@ public class Chat {
     @OneToMany(mappedBy = "chat", cascade = CascadeType.REMOVE)
     private List<UserChats> users = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Location location;
 
     public Chat(Long id, String name, String description, String picture, User admin, Location location) {

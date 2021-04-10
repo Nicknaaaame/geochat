@@ -23,4 +23,6 @@ public class Location {
 
 //    @Column(columnDefinition="Decimal(10,8)")
     private Double longitude;
+
+
 }
