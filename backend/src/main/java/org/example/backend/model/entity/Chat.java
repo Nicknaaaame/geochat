@@ -18,6 +18,7 @@ public class Chat {
 
     private String name;
 
+    @Column(length = 2048)
     private String description;
 
     private String picture;

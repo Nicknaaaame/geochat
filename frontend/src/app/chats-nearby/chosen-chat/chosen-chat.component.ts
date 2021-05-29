@@ -51,7 +51,7 @@ export class ChosenChatComponent implements OnInit {
     this.messageService.onMessage(this.chat.id).subscribe(message => this.messages.push(this.convertMessage(message)))
     this.form = this.fb.group({
       name: [this.chat.name, [Validators.required, Validators.minLength(3), Validators.maxLength(52)]],
-      description: [this.chat.description, [Validators.maxLength(1028)]],
+      description: [this.chat.description, [Validators.maxLength(2048)]],
       picture: [null]
     })
     console.log(this.chat)
@@ -90,7 +90,7 @@ export class ChosenChatComponent implements OnInit {
   }
 
   onClickEditChatDialog(dialog: TemplateRef<any>) {
-    this.modalService.open(dialog, {centered: true, size: 'sm'}).closed.subscribe(value => {
+    this.modalService.open(dialog, {centered: true, size: 'lg'}).closed.subscribe(value => {
       if (value == 'YES') {
         this.chatService.updateChat(this.chat.id, {
           picture: this.form.controls['picture'].value,

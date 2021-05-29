@@ -6,6 +6,7 @@ import org.example.backend.service.BlackListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,12 +18,14 @@ public class BlackListController {
     private BlackListService blackListService;
 
     @PostMapping("/block")
+    @PreAuthorize("@securityService.isAdmin(#request.chatId)")
     public ResponseEntity<Void> blockUser(@RequestBody BlackListRequest request) {
         blackListService.blockUser(request.getUserId(), request.getChatId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/unblock")
+    @PreAuthorize("@securityService.isAdmin(#request.chatId)")
     public ResponseEntity<Void> unblockUser(@RequestBody BlackListRequest request) {
         blackListService.unblockUser(request.getUserId(), request.getChatId());
         return new ResponseEntity<>(HttpStatus.OK);

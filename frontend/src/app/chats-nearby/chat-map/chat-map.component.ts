@@ -50,7 +50,7 @@ export class ChatMapComponent implements OnInit, AfterViewInit {
     ymaps.ready().done(() => this.initMap())
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(52)]],
-      description: ['', [Validators.maxLength(1028)]],
+      description: ['', [Validators.maxLength(2048)]],
       picture: [null]
     })
   }
@@ -69,7 +69,32 @@ export class ChatMapComponent implements OnInit, AfterViewInit {
         [lat2, lon2]
       ]
     })
-    this.clusterer = new ymaps.Clusterer()
+   /* var balloonContentLayout = ymaps.templateLayoutFactory.createClass(`
+    <ul>
+    {% for geoObject in properties.geoObjects %}
+      <div>
+        <h3>{{geoObject.name}}</h3>
+        <h4>{{geoObject.desc}}</h4>
+        <button id="open-btn">Open</button>
+      </div>
+      {% endfor %}
+    </ul>
+    `,
+      {
+        build: function () {
+          balloonContentLayout.superclass.build.call(this);
+          $('#open-btn').on('click', () => {
+            // openChat(chat)
+          });
+        },
+        clear: function () {
+          // $('#open-btn').off('click', this.onOpenChatBtnClick());
+          balloonContentLayout.superclass.clear.call(this);
+        },
+      });*/
+    this.clusterer = new ymaps.Clusterer({
+      // clusterBalloonContentLayout: balloonContentLayout
+    })
     let myGeoObjects: any = []
     // myGeoObjects.push(new ymaps.Placemark(this.myMap.getCenter()))
 
@@ -117,6 +142,7 @@ export class ChatMapComponent implements OnInit, AfterViewInit {
         name: chat.name,
         desc: chat.description,
         pic: chat.picture,
+        chat: chat
       },
       {
         balloonPanelMaxMapArea: 0,

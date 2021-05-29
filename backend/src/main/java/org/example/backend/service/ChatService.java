@@ -35,6 +35,4 @@ public interface ChatService {
     void disableNotification(Chat chat);
 
     Boolean chatNotification(Long chatId);
-
-    void ifNotAdminThrowForbidden(Long chatId);
 }

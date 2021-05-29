@@ -15,12 +15,12 @@
       <mat-error *ngIf="form.controls['name'].invalid">Please enter a valid name</mat-error>
     </mat-form-field>
     <br>
-    <mat-form-field>
+    <mat-form-field style="width: 100%">
       <mat-label>Description</mat-label>
-      <label>
+      <label style="width: 100%">
         <textarea matInput formControlName="description" cdkTextareaAutosize cdkAutosizeMaxRows="7" style="overflow: auto"></textarea>
       </label>
-      <mat-error *ngIf="form.controls['description'].invalid">Max length of desc is 1024 </mat-error>
+      <mat-error *ngIf="form.controls['description'].invalid">Max length of desc is 2048 </mat-error>
     </mat-form-field>
   </form>
   <mat-dialog-actions>

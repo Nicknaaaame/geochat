@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,7 +50,7 @@ public class ChatController {
     }
 
     @PostMapping()
-    public ResponseEntity<ChatResponse> saveChat(@ModelAttribute SaveChatRequest request) {
+    public ResponseEntity<ChatResponse> saveChat(@ModelAttribute @Valid SaveChatRequest request) {
         return new ResponseEntity<>(chatResponseConverter.apply(chatService.saveChat(request)), HttpStatus.OK);
     }
 
@@ -77,15 +79,15 @@ public class ChatController {
     }
 
     @DeleteMapping("/{chatId}")
+    @PreAuthorize("@securityService.isAdmin(#chatId)")
     public ResponseEntity<Void> deleteChat(@PathVariable Long chatId) {
-        chatService.ifNotAdminThrowForbidden(chatId);
         chatService.deleteChat(chatId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/{chatId}")
-    public ResponseEntity<ChatResponse> updateChat(@PathVariable Long chatId, @ModelAttribute SaveChatRequest request) {
-        chatService.ifNotAdminThrowForbidden(chatId);
+    @PreAuthorize("@securityService.isAdmin(#chatId)")
+    public ResponseEntity<ChatResponse> updateChat(@PathVariable Long chatId, @ModelAttribute @Valid SaveChatRequest request) {
         return new ResponseEntity<>(chatResponseConverter.apply(chatService.updateChat(chatId, request)), HttpStatus.OK);
     }
 
@@ -101,3 +103,4 @@ public class ChatController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
+

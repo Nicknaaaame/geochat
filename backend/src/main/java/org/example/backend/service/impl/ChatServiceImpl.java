@@ -12,7 +12,6 @@ import org.example.backend.service.LocationService;
 import org.example.backend.service.MessageService;
 import org.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -170,11 +169,5 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public Boolean chatNotification(Long chatId) {
         return chatRepository.chatNotification(chatId, userService.getUser().getId()).orElse(null);
-    }
-
-    @Override
-    public void ifNotAdminThrowForbidden(Long chatId) {
-        if(!getChat(chatId).getAdmin().getId().equals(userService.getUser().getId()))
-            throw new AccessDeniedException("This method is forbidden");
     }
 }
