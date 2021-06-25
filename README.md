@@ -1,4 +1,4 @@
-# Screanshots of the application
+# Screenshots of the application
 Login page  
 ![1](https://user-images.githubusercontent.com/48119336/122210574-fe9a2880-cecf-11eb-8d46-3a777ce9edc7.png)  
 Chats around page  
